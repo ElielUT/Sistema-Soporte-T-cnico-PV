@@ -1,3 +1,37 @@
 <%- include('templates/header.ejs') %>
     <h1>Inventario</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Cantidad</th>
+                <th>Medida</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(item=> { %>
+                <tr>
+                    <td>
+                        <%= item.idinvt %>
+                    </td>
+                    <td>
+                        <%= item.producto %>
+                    </td>
+                    <td>
+                        <%= item.categoria %>
+                    </td>
+                    <td>
+                        <%= item.cantidad %>
+                    </td>
+                    <td>
+                        <%= item.medida %>
+                            <%= item.unmed %>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
     <%- include('templates/footer.ejs') %>

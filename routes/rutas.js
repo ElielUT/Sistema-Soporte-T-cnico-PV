@@ -16,8 +16,23 @@ router.post("/", (req, res) => {
     }
 })
 
-router.get("/inventario", (req, res) => {
-    res.render("inventario");
+router.get("/inventario", async (req, res) => {
+    try {
+        const respuesta = await fetch(`${process.env.URL_API}/inventario`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+        const items = await respuesta.json();
+        const data = items.items;
+        res.render("inventario", { data });
+    } catch (error) {
+        console.error("Error de la api:" + error);
+        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
+    }
 })
 
 export default router;

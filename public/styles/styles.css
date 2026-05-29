@@ -15,7 +15,12 @@ body {
     height: 100vh;
     display: flex;
     background-color: var(--clr-bg);
+    overflow: hidden;
 }
+
+/********************
+        MENU
+********************/
 
 .menu {
     background-color: var(--colorSecundario);
@@ -71,7 +76,48 @@ body {
     transform: translateX(20%) translateY(7%) scale(1.3);
 }
 
+
+
+/*******************
+      CONTENIDO
+*******************/
+
 .contenido {
     width: 80%;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+}
+
+.contenido h1 {
+    font-size: 3em;
+    color: var(--colorPrincipal);
+    margin: 10px auto;
+}
+
+/********************
+      Inventario
+********************/
+table {
+    width: 90%;
+    border-collapse: collapse;
+}
+
+table th,
+table td {
+    border: 1px solid var(--colorPrincipal);
+    padding: 10px;
+}
+
+table thead {
+    background-color: var(--colorPrincipal);
+    color: var(--colorAcento);
+    text-align: center;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: var(--colorTerciario);
+    text-align: center;
 }
