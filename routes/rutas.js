@@ -10,12 +10,14 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
     const { usuario, password } = req.body;
     if (usuario === process.env.USUARIO && password === process.env.CONTRASENA) {
-        //res.redirect("/dashboard");
-        res.send("Entro");
+        res.redirect("/inventario");
     } else {
-        res.send("No entro");
-        //res.redirect("/");
+        res.redirect("/");
     }
+})
+
+router.get("/inventario", (req, res) => {
+    res.render("inventario");
 })
 
 export default router;
