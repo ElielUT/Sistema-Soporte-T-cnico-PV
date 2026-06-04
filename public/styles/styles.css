@@ -178,6 +178,12 @@ body {
     font-size: 1.2em;
     background-color: var(--colorPrincipal);
     color: var(--colorBlack10);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.buscador .nuevo:hover {
+    transform: scale(1.1);
 }
 
 /********************
