@@ -1,9 +1,14 @@
 :root {
-    --colorPrincipal: rgb(2, 73, 95);
-    --colorSecundario: rgb(106, 192, 226);
+    --colorPrincipal: rgb(0, 79, 104);
+    --colorSecundario: rgb(115, 209, 245);
     --colorTerciario: rgb(194, 231, 245);
-    --colorAcento: rgb(255, 255, 255);
-    --clr-bg: #f4f7f6;
+    --colorBlack10: rgb(230, 231, 232);
+    --colorBlack50: rgb(147, 149, 152);
+    --colorBlack90: rgb(65, 64, 66);
+    --colorRed: rgb(255, 0, 0);
+    --colorGreen: rgb(0, 148, 0);
+    --principalFont: Helvetica, sans-serif;
+    --secundaryFont: 'Noto Serif', serif;
 }
 
 * {
@@ -12,9 +17,10 @@
 }
 
 body {
+    font-family: var(--principalFont);
     height: 100vh;
     display: flex;
-    background-color: var(--clr-bg);
+    background-color: var(--colorBlack10);
     overflow: hidden;
 }
 
@@ -23,18 +29,19 @@ body {
 ********************/
 
 .menu {
-    background-color: var(--colorSecundario);
+    background-color: var(--colorPrincipal);
     flex-direction: column;
     height: 100vh;
-    color: var(--colorAcento);
+    color: var(--colorSecundario);
     width: 20%;
 }
 
 .menTitulo {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 20vh;
+    height: 30vh;
     width: 100%;
 }
 
@@ -44,18 +51,22 @@ body {
     font-size: 2.2em;
 }
 
+.menTitulo img {
+    width: 40%;
+}
+
 .menEnlaces {
     display: flex;
     flex-direction: column;
     margin: 5px auto;
-    height: 80vh;
+    height: 70vh;
     width: 100%;
     justify-content: center;
 }
 
 .menEnlaces a {
     padding: 5px;
-    color: var(--colorAcento);
+    color: var(--colorSecundario);
     text-decoration: none;
     font-size: 1.5em;
     transition: transform 0.3s ease-in-out;
@@ -68,14 +79,13 @@ body {
 }
 
 .menu a:hover {
-    color: var(--colorPrincipal);
+    color: var(--colorBlack10);
     transform: translateX(20%) scale(1.3);
 }
 
 .menu a:last-child:hover {
     transform: translateX(20%) translateY(7%) scale(1.3);
 }
-
 
 
 /*******************
@@ -97,27 +107,124 @@ body {
     margin: 10px auto;
 }
 
+/*******************
+      Buscador
+*******************/
+
+.buscador {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 10px auto;
+}
+
+.buscador form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+
+.buscador form input,
+.buscador form select {
+    width: 50%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 1.2em;
+    background-color: rgba(0, 79, 104, 0.82);
+    color: var(--colorBlack10);
+}
+
+.buscador form input::placeholder {
+    color: var(--colorBlack10);
+    opacity: 1;
+}
+
+.buscador form select {
+    width: 50%;
+    padding: 10px;
+    padding-right: 40px;
+    /* Agregamos espacio extra a la derecha para la flecha */
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 1.2em;
+    background-color: rgba(0, 79, 104, 0.82);
+    color: var(--colorBlack10);
+    /* Ocultar la flecha por defecto */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* Fondo doble: la flecha en color principal (#004f68) y un bloque lateral de color secundario para contrastar */
+    background-image:
+        url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23004f68'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat, no-repeat;
+    background-position: right 13px center, right center;
+    background-size: 30px, 100% 100%;
+}
+
+.buscador .nuevo {
+    width: 20%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 1.2em;
+    background-color: var(--colorPrincipal);
+    color: var(--colorBlack10);
+}
+
 /********************
       Inventario
 ********************/
 table {
     width: 90%;
-    border-collapse: collapse;
+    border: none;
+    border-spacing: 10px;
 }
 
 table th,
 table td {
-    border: 1px solid var(--colorPrincipal);
     padding: 10px;
+    color: var(--colorBlack90);
 }
 
 table thead {
     background-color: var(--colorPrincipal);
-    color: var(--colorAcento);
+    color: var(--colorBlack10);
     text-align: center;
 }
 
-table tbody tr:nth-child(even) {
-    background-color: var(--colorTerciario);
-    text-align: center;
+table thead th {
+    color: var(--colorBlack10);
+}
+
+table tbody td {
+    background-color: var(--colorSecundario);
+}
+
+.eliminar {
+    color: var(--colorRed);
+    display: inline-block;
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+    padding-right: 5px;
+}
+
+.editar {
+    color: var(--colorGreen);
+    display: inline-block;
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.eliminar:hover,
+.editar:hover {
+    transform: scale(1.5);
 }

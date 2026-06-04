@@ -1,6 +1,17 @@
 <%- include('templates/header.ejs') %>
     <h1>Inventario</h1>
 
+    <div class="buscador">
+        <form action="">
+            <input type="text" name="Buscar" placeholder="Buscar">
+            <select name="categoria" id="">
+                <option value="">Todos</option>
+            </select>
+        </form>
+
+        <button class="nuevo">+ Nuevo</button>
+    </div>
+
     <table>
         <thead>
             <tr>
@@ -9,6 +20,7 @@
                 <th>Categoría</th>
                 <th>Cantidad</th>
                 <th>Medida</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -29,6 +41,10 @@
                     <td>
                         <%= item.medida %>
                             <%= item.unmed %>
+                    </td>
+                    <td id="<%= item.idinvt %>" style="width: 50px; text-align: center;">
+                        <i class="bi bi-trash-fill eliminar"></i>
+                        <i class="bi bi-pencil-fill editar"></i>
                     </td>
                 </tr>
                 <% }) %>
