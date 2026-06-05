@@ -18,7 +18,7 @@ router.post("/", (req, res) => {
 
 router.get("/inventario", async (req, res) => {
     try {
-        const respuesta = await fetch(`${process.env.URL_API}/inventario`,
+        const respuesta = await fetch(`${process.env.URL_API}/inventario/`,
             {
                 method: "GET",
                 headers: {
@@ -33,6 +33,12 @@ router.get("/inventario", async (req, res) => {
         console.error("Error de la api:" + error);
         res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
     }
+})
+
+router.get("/rutas", (req, res) => {
+    res.json({
+        url: process.env.URL_API
+    });
 })
 
 export default router;

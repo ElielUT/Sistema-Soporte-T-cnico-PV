@@ -5,7 +5,7 @@
     --colorBlack10: rgb(230, 231, 232);
     --colorBlack50: rgb(147, 149, 152);
     --colorBlack90: rgb(65, 64, 66);
-    --colorRed: rgb(255, 0, 0);
+    --colorRed: #a20303;
     --colorGreen: rgb(0, 148, 0);
     --principalFont: Helvetica, sans-serif;
     --secundaryFont: 'Noto Serif', serif;
@@ -22,6 +22,39 @@ body {
     display: flex;
     background-color: var(--colorBlack10);
     overflow: hidden;
+}
+
+.contCarga {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(115, 209, 245, 0.5);
+    z-index: 1000;
+}
+
+.carga {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    margin: auto;
+    border: 20px solid var(--colorBlack10);
+    border-radius: 50%;
+    border-top: 20px solid var(--colorPrincipal);
+    width: 100px;
+    height: 100px;
+    animation: spinner 4s linear infinite;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /********************
@@ -120,13 +153,15 @@ body {
     margin: 10px auto;
 }
 
-.buscador form {
+
+.formBusqueda {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     width: 80%;
 }
+
 
 .buscador form input,
 .buscador form select {
@@ -138,6 +173,7 @@ body {
     font-size: 1.2em;
     background-color: rgba(0, 79, 104, 0.82);
     color: var(--colorBlack10);
+    font-weight: bold;
 }
 
 .buscador form input::placeholder {
@@ -233,4 +269,199 @@ table tbody td {
 .eliminar:hover,
 .editar:hover {
     transform: scale(1.5);
+}
+
+
+/**********************
+ Formulario de Ingreso
+**********************/
+
+.ingresar,
+.formEditar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 89%;
+    margin: 10px auto;
+    background-color: var(--colorPrincipal);
+    border-radius: 10px;
+}
+
+.botones {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 98%;
+    justify-content: flex-end;
+    padding-top: 1%;
+}
+
+.botones button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 1.2em;
+    color: var(--colorBlack10);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.botones button:hover {
+    transform: scale(1.1);
+}
+
+.botones button:first-child {
+    background-color: var(--colorRed);
+}
+
+.botones button:last-child {
+    background-color: var(--colorSecundario);
+    color: var(--colorBlack90);
+}
+
+.ingresar form {
+    width: 95%;
+}
+
+.ingresar form input,
+.ingresar form select {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    background-color: var(--colorSecundario);
+    color: var(--colorBlack90);
+    font-weight: bold;
+}
+
+.ingresar form select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    background-image:
+        url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23004f68'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat, no-repeat;
+    background-position: right 13px center, right center;
+    background-size: 30px, 100% 100%;
+    cursor: pointer;
+}
+
+.ingresar form input::placeholder {
+    color: var(--colorBlack90);
+    opacity: 1;
+}
+
+.ingresar form .tres {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-bottom: 20px;
+    justify-content: space-between;
+}
+
+.ingresar form .tres input,
+.ingresar form .tres select {
+    width: 31%;
+}
+
+.ingresar .dosUno {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-bottom: 20px;
+    justify-content: space-between;
+}
+
+.ingresar .dosUno input {
+    width: 64%;
+}
+
+.ingresar .dosUno select {
+    width: 32.5%;
+}
+
+.ingresar .solo {
+    width: 100%;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ingresar .solo label {
+    font-size: 1.2em;
+    color: var(--colorSecundario);
+    margin-right: 10px;
+    padding-left: 10px;
+}
+
+.ingresar .solo input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: var(--colorSecundario);
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    outline: none;
+    transition: background-color 0.2s ease;
+}
+
+.ingresar .solo input[type="checkbox"]:checked {
+    background-color: var(--colorSecundario);
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23004f68' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+    background-size: 18px 18px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Ocultar flechas nativas en inputs de tipo number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: none;
+}
+
+/* Flechas personalizadas para inputs de tipo number en formulario de ingreso */
+.ingresar form input[type="number"] {
+    /*padding-right: 40px;*/
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23004f68'%3E%3Cpath d='M8 1.5 L14 7.5 H2 Z M8 14.5 L14 8.5 H2 Z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 13px center;
+    background-size: 20px;
+}
+
+.contenedorForm {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(115, 209, 245, 0.43);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/****************
+     Modales
+*****************/
+.ocultar {
+    display: none;
+}
+
+.completo {
+    width: 100%;
 }
