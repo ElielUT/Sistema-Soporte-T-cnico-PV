@@ -1,0 +1,132 @@
+<%- include('templates/header_superior.ejs', {titulo: "Producto " + data.producto + " #" + data.idinvt ,
+    pagAnterior: "/inventario" }) %>
+
+    <% const marcas=[...new Set(data.items.map(item=> item.marca).filter(val => val && val.trim() !== ''))];
+        const modelos = [...new Set(data.items.map(item => item.modelo).filter(val => val && val.trim() !== ''))];
+        %>
+
+        <div class="buscador">
+            <form action="" id="formBusqueda" class="formBusqueda">
+                <input type="text" name="Buscar" placeholder="Buscar">
+                <select name="marca" id="">
+                    <option value="">Todas</option>
+                    <% marcas.forEach(marca=> { %>
+                        <option value="<%= marca %>">
+                            <%= marca %>
+                        </option>
+                        <% }) %>
+                </select>
+                <select name="modelo" id="">
+                    <option value="">Todos</option>
+                    <% modelos.forEach(modelo=> { %>
+                        <option value="<%= modelo %>">
+                            <%= modelo %>
+                        </option>
+                        <% }) %>
+                </select>
+            </form>
+
+            <button class="nuevo" id="nuevo"><b>+ Nuevo</b></button>
+        </div>
+
+        <div class="ingresar ocultar modales" id="formNuevo">
+            <div class="botones">
+                <button class="cancelar"><b>Cancelar</b></button>
+                <button class="agregar" id="agregar"><b>+ Agregar</b></button>
+            </div>
+
+            <form action="">
+                <input type="hidden" name="idinvt1" value="<%= data.idinvt %>">
+                <div class="tres">
+                    <input type="text" placeholder="Numero de Serie" name="noserie">
+                    <select name="estado" id="">
+                        <option value="En uso">En uso</option>
+                        <option value="Funcionado">Funcionado</option>
+                        <option value="Pendiente de Revisión">Pendiente de revisión</option>
+                        <option value="En Reparación">En reparación</option>
+                    </select>
+                    <input type="text" name="marca" id="" placeholder="Marca">
+                </div>
+                <div class="dos">
+                    <input type="text" name="modelo" id="" placeholder="Modelo">
+                    <input type="text" name="cvlicencia" id="" placeholder="Clave de licencia">
+                </div>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Estado</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>No. Serie</th>
+                    <th>Cv. Licencia</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.items.forEach(item=> { %>
+                    <tr id="<%= item.idprod %>" data-estado="<%= item.estado %>" data-marca="<%= item.marca %>"
+                        data-modelo="<%= item.modelo %>" data-noserie="<%= item.noserie %>"
+                        data-cvlicencia="<%= item.cvlicencia %>">
+                        <td>
+                            <%= item.idprod %>
+                        </td>
+                        <td>
+                            <%= item.estado %>
+                        </td>
+                        <td>
+                            <%= item.marca %>
+                        </td>
+                        <td>
+                            <%= item.modelo %>
+                        </td>
+                        <td>
+                            <%= item.noserie %>
+                        </td>
+                        <td>
+                            <%= item.cvlicencia %>
+                        </td>
+                        <td style="width: 50px; text-align: center;">
+                            <form action=""><input type="hidden" name="subcategoria" value="<%= item.subcategoria %>">
+                            </form>
+                            <i class="bi bi-trash-fill eliminar"></i>
+                            <i class="bi bi-pencil-fill editar"></i>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+        </div>
+        <div class="contenedorForm ocultar modales" id="formEditar">
+            <div class="formEditar ingresar">
+                <div class="botones">
+                    <button class="cancelar"><b>Cancelar</b></button>
+                    <button class="actualizar" id="actualizar"><b>Actualizar</b></button>
+                </div>
+
+                <form action="">
+                    <input type="hidden" name="idinvt1" value="<%= data.idinvt %>">
+                    <div class="tres">
+                        <input type="text" placeholder="Numero de Serie" name="noserie">
+                        <select name="estado" id="">
+                            <option value="En uso">En uso</option>
+                            <option value="Funcionado">Funcionado</option>
+                            <option value="Pendiente de Revisión">Pendiente de revisión</option>
+                            <option value="En Reparación">En reparación</option>
+                        </select>
+                        <input type="text" name="marca" id="" placeholder="Marca">
+                    </div>
+                    <div class="dos">
+                        <input type="text" name="modelo" id="" placeholder="Modelo">
+                        <input type="text" name="cvlicencia" id="" placeholder="Clave de licencia">
+                    </div>
+                </form>
+            </div>
+
+            <script>
+                window.paginaActual = "/producto"
+            </script>
+            <%- include('templates/footer.ejs') %>

@@ -9,20 +9,19 @@
     <title>Sistema Soporte Técnico PV</title>
 </head>
 
-<body>
-    <div class="menu">
-
-        <div class="menTitulo">
+<body style="flex-direction: column;">
+    <div class="barraSuperior">
+        <div class="izquierda">
+            <a href="<%= pagAnterior %>" id="regresar"><i class="bi bi-caret-left-fill"></i></a>
             <img src="/images/logo.png" alt="Logo">
-            <br>
-            <h1>Soporte Técnico</h1>
         </div>
-        <div class="menEnlaces">
-            <a href="/inventario"><b>Inventario</b></a>
-            <a href="/camaras"><b>Cámaras</b></a>
-            <a href="/antenas"><b>Antenas</b></a>
-            <a href="/contraseñas"><b>Contraseñas</b></a>
-            <a href="/mantenimientos"><b>Mantenimientos</b></a>
+        <div class="titulo">
+            <h1>
+                <%= titulo %>
+            </h1>
         </div>
     </div>
-    <div class="contenido">
+    <div class="contenidoCompleto">
+</body>
+
+</html>

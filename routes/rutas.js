@@ -35,6 +35,42 @@ router.get("/inventario", async (req, res) => {
     }
 })
 
+router.get("/productos/:id", async (req, res) => {
+    try {
+        const respuesta = await fetch(`${process.env.URL_API}/producto/${req.params.id}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+        const items = await respuesta.json();
+        const data = items;
+        res.render("producto", { data });
+    } catch (error) {
+        console.error("Error de la api:" + error);
+        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
+    }
+})
+
+router.get("/camaras", async (req, res) => {
+    try {
+        const respuesta = await fetch(`${process.env.URL_API}/camara/`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const items = await respuesta.json();
+        const data = items.items;
+        res.render("camaras", { data });
+    } catch (error) {
+        console.error("Error de la api:" + error);
+        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
+    }
+})
+
 router.get("/rutas", (req, res) => {
     res.json({
         url: process.env.URL_API
