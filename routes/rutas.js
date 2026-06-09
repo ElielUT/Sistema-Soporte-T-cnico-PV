@@ -64,7 +64,78 @@ router.get("/camaras", async (req, res) => {
         });
         const items = await respuesta.json();
         const data = items.items;
-        res.render("camaras", { data });
+        const productos = items.productos;
+        res.render("camaras", { data, productos });
+    } catch (error) {
+        console.error("Error de la api:" + error);
+        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
+    }
+})
+
+router.get("/antenas", async (req, res) => {
+    try {
+        const respuesta = await fetch(`${process.env.URL_API}/antena/`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const items = await respuesta.json();
+        const data = items.items;
+        const productos = items.productos;
+        res.render("antenas", { data, productos });
+    } catch (error) {
+        console.error("Error de la api:" + error);
+        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
+    }
+})
+
+router.get("/contrasenas", async (req, res) => {
+    try {
+        const respuesta = await fetch(`${process.env.URL_API}/passwords/`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const items = await respuesta.json();
+        const data = items.items;
+        res.render("contraseñas", { data });
+    } catch (error) {
+        console.error("Error de la api:" + error);
+        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
+    }
+})
+
+router.get("/mantenimientos", async (req, res) => {
+    try {
+        const respuesta = await fetch(`${process.env.URL_API}/mantenimientos/`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const items = await respuesta.json();
+        const data = items.items;
+        res.render("mantenimientos", { data });
+    } catch (error) {
+        console.error("Error de la api:" + error);
+        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
+    }
+})
+
+router.get("/proceso", async (req, res) => {
+    try {
+        const respuesta = await fetch(`${process.env.URL_API}/proceso/`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const items = await respuesta.json();
+        const data = items.items;
+        const mantenimientos = items.mantenimientos;
+        res.render("proceso", { data, mantenimientos });
     } catch (error) {
         console.error("Error de la api:" + error);
         res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);

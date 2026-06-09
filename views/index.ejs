@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema Soporte Técnico PV</title>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         * {
             padding: 0px;
@@ -94,7 +94,12 @@
             <label for="usuario">Usuario:</label>
             <input type="text" name="usuario" id="usuario" placeholder="Ingrese el usuario">
             <label for="password">Contraseña:</label>
-            <input type="password" name="password" id="password" placeholder="Ingrese la contraseña">
+            <div class="password-container" style="width: 80%; position: relative; display: flex;">
+                <input type="password" name="password" id="password" placeholder="Ingrese la contraseña"
+                    style="width: 100% !important; padding-right: 40px !important;">
+                <i class="bi bi-eye-fill toggle-password"
+                    style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; color: rgb(0, 79, 104); font-size: 1.2em; z-index: 10;"></i>
+            </div>
         </form>
         <button type="submit">Iniciar Sesión</button>
     </div>
@@ -111,6 +116,27 @@
             if (e.key === "Enter") {
                 e.preventDefault();
                 form.submit();
+            }
+        });
+
+        // Toggle password visibility functionality
+        document.addEventListener("click", function (e) {
+            if (e.target && e.target.classList.contains("toggle-password")) {
+                const container = e.target.closest(".password-container");
+                if (container) {
+                    const input = container.querySelector("input");
+                    if (input) {
+                        if (input.type === "password") {
+                            input.type = "text";
+                            e.target.classList.remove("bi-eye-fill");
+                            e.target.classList.add("bi-eye-slash-fill");
+                        } else {
+                            input.type = "password";
+                            e.target.classList.remove("bi-eye-slash-fill");
+                            e.target.classList.add("bi-eye-fill");
+                        }
+                    }
+                }
             }
         });
     </script>

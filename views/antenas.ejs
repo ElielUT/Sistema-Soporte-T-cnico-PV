@@ -1,5 +1,5 @@
 <%- include("templates/header.ejs") %>
-    <h1>Cámaras</h1>
+    <h1>Antenas</h1>
     <div class="buscador">
         <form action="" id="formBusqueda" class="formBusqueda">
             <input type="text" name="Buscar" placeholder="Buscar" style="width: 100%;">
@@ -16,7 +16,7 @@
 
         <form action="">
             <div class="tres">
-                <select name="idprod2" id="">
+                <select name="idprod1" id="">
                     <option value="">Seleccione un producto</option>
                     <% productos.forEach(prod=> { %>
                         <option value="<%= prod.idprod %>">
@@ -26,11 +26,15 @@
                         <% }) %>
                 </select>
                 <input type="text" name="nombre" id="" placeholder="Nombre">
-                <input type="text" name="direccioip" id="" placeholder="Dirección IP">
+                <input type="text" name="direccionip" id="" placeholder="Dirección IP">
             </div>
             <div class="dos">
                 <input type="text" name="ubicacion" id="" placeholder="Ubicación">
-                <input type="text" name="conexion" id="" placeholder="Conexión">
+                <input type="text" name="puertoswitch" id="" placeholder="Puerto Switch">
+            </div>
+            <div class="dos">
+                <input type="text" name="usuario" id="" placeholder="Usuario">
+                <input type="text" name="contrasena" id="" placeholder="Contraseña">
             </div>
         </form>
     </div>
@@ -42,29 +46,35 @@
                 <th>Nombre</th>
                 <th>Dirección IP</th>
                 <th>Ubicación</th>
-                <th>Conexión</th>
+                <th>Usuario / Contraseña</th>
+                <th>Puerto</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             <% data.forEach(item=> { %>
-                <tr id="<%= item.idcamara %>" data-nombre="<%= item.nombre %>" data-direccioip="<%= item.direccioip %>"
-                    data-ubicacion="<%= item.ubicacion %>" data-conexion="<%= item.conexion %>"
-                    data-idprod2="<%= item.idprod2 %>">
+                <tr id="<%= item.idantena %>" data-nombre="<%= item.nombre %>"
+                    data-direccionip="<%= item.direccionip %>" data-ubicacion="<%= item.ubicacion %>"
+                    data-puertoswitch="<%= item.puertoswitch %>" data-usuario="<%= item.usuario %>"
+                    data-contrasena="<%= item.contrasena %>" data-idprod1="<%= item.idprod1 %>">
                     <td>
-                        <%= item.idcamara %>
+                        <%= item.idantena %>
                     </td>
                     <td>
                         <%= item.nombre %>
                     </td>
                     <td>
-                        <%= item.direccioip %>
+                        <%= item.direccionip %>
                     </td>
                     <td>
                         <%= item.ubicacion %>
                     </td>
                     <td>
-                        <%= item.conexion %>
+                        <%= item.usuario %>
+                            <%= item.contrasena %>
+                    </td>
+                    <td>
+                        <%= item.puertoswitch %>
                     </td>
                     <td style="width: 50px; text-align: center;">
                         <form action=""><input type="hidden" name="subcategoria" value="<%= item.subcategoria %>">
@@ -87,7 +97,7 @@
 
             <form action="">
                 <div class="tres">
-                    <select name="idprod2" id="">
+                    <select name="idprod1" id="">
                         <option value="">Seleccione un producto</option>
                         <% productos.forEach(prod=> { %>
                             <option value="<%= prod.idprod %>">
@@ -97,16 +107,20 @@
                             <% }) %>
                     </select>
                     <input type="text" name="nombre" id="" placeholder="Nombre">
-                    <input type="text" name="direccioip" id="" placeholder="Dirección IP">
+                    <input type="text" name="direccionip" id="" placeholder="Dirección IP">
                 </div>
                 <div class="dos">
                     <input type="text" name="ubicacion" id="" placeholder="Ubicación">
-                    <input type="text" name="conexion" id="" placeholder="Conexión">
+                    <input type="text" name="puertoswitch" id="" placeholder="Puerto Switch">
+                </div>
+                <div class="dos">
+                    <input type="text" name="usuario" id="" placeholder="Usuario">
+                    <input type="text" name="contrasena" id="" placeholder="Contraseña">
                 </div>
             </form>
         </div>
 
         <script>
-            window.paginaActual = "/camara"
+            window.paginaActual = "/antena"
         </script>
         <%- include("templates/footer.ejs") %>

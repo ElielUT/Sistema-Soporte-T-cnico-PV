@@ -446,6 +446,39 @@ table tbody td {
     width: 32.5%;
 }
 
+.ingresar .dosUno1 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-bottom: 20px;
+    justify-content: space-between;
+}
+
+.ingresar .dosUno1 select {
+    width: 64%;
+}
+
+.ingresar .dosUno1 input {
+    width: 32.5%;
+}
+
+
+.ingresar .dosMedio {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-bottom: 20px;
+    justify-content: space-between;
+}
+
+.ingresar .dosMedio select {
+    width: 60%;
+}
+
+.ingresar .dosMedio input {
+    width: 15%;
+}
+
 .ingresar .dos {
     display: flex;
     flex-direction: row;
@@ -454,7 +487,8 @@ table tbody td {
     justify-content: space-between;
 }
 
-.ingresar .dos input {
+.ingresar .dos input,
+.ingresar .dos select {
     width: 47%;
 }
 
@@ -531,6 +565,59 @@ input[type="number"] {
 }
 
 /****************
+  Mantenimientos
+*****************/
+.superior {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 17vh;
+}
+
+.secciones {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 95%;
+    margin: 0px auto;
+}
+
+.btn-seccion {
+    width: 25%;
+    height: 7vh;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 1.5em;
+    background-color: var(--colorSecundario);
+    color: var(--colorBlack90);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    font-weight: bold;
+
+}
+
+.btn-seccion:hover {
+    transform: scale(1.1);
+}
+
+.btn-seccion.seleccionado {
+    background-color: var(--colorPrincipal);
+    color: var(--colorBlack10);
+}
+
+.seccion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin: 0px auto;
+    height: 83vh;
+}
+
+/****************
      Modales
 *****************/
 .ocultar {
@@ -539,4 +626,54 @@ input[type="number"] {
 
 .completo {
     width: 100%;
+}
+
+/* Password Toggle Icon Styles */
+.password-container {
+    position: relative;
+    width: 47%;
+    display: flex;
+}
+
+.ingresar .dos .password-container input {
+    width: 100% !important;
+    padding-right: 40px !important;
+}
+
+.password-container .toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--colorPrincipal);
+    font-size: 1.2em;
+    z-index: 10;
+}
+
+/* Styles for password column inside tables */
+.table-password {
+    width: 100% !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table-password input.table-password-input {
+    background: transparent !important;
+    border: none !important;
+    color: var(--colorBlack90) !important;
+    font-size: 1em !important;
+    font-family: var(--principalFont) !important;
+    width: 80% !important;
+    outline: none !important;
+    padding: 0 !important;
+}
+
+.table-password .toggle-password {
+    position: static !important;
+    transform: none !important;
+    color: var(--colorPrincipal);
+    font-size: 1.2em;
+    cursor: pointer;
 }

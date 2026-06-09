@@ -7,7 +7,7 @@
             <select name="categoria" id="">
                 <option value="">Todos</option>
                 <option value="Periféricos">Periféricos</option>
-                <option value="Redes">Redes</option>
+                <option value="Antenas">Antenas</option>
                 <option value="Computo">Computo</option>
                 <option value="Cámaras">Cámaras</option>
                 <option value="Cables">Cables</option>
@@ -32,7 +32,7 @@
                 <select name="categoria" id="">
                     <option value="">Categoría</option>
                     <option value="Periféricos">Periféricos</option>
-                    <option value="Redes">Redes</option>
+                    <option value="Antenas">Antenas</option>
                     <option value="Computo">Computo</option>
                     <option value="Cámaras">Cámaras</option>
                     <option value="Cables">Cables</option>
@@ -85,7 +85,9 @@
         </thead>
         <tbody>
             <% data.forEach(item=> { %>
-                <tr id="<%= item.idinvt %>" data-producto="<%= item.producto %>" data-categoria="<%= item.categoria %>" data-cantidad="<%= item.cantidad %>" data-medida="<%= item.medida %>" data-unmed="<%= item.unmed %>">
+                <tr id="<%= item.idinvt %>" data-producto="<%= item.producto %>" data-categoria="<%= item.categoria %>"
+                    data-cantidad="<%= item.cantidad %>" data-medida="<%= item.medida %>"
+                    data-unmed="<%= item.unmed %>">
                     <td>
                         <%= item.idinvt %>
                     </td>
@@ -126,7 +128,7 @@
                     <select name="categoria" id="">
                         <option value="">Categoría</option>
                         <option value="Periféricos">Periféricos</option>
-                        <option value="Redes">Redes</option>
+                        <option value="Antenas">Antenas</option>
                         <option value="Computo">Computo</option>
                         <option value="Cámaras">Cámaras</option>
                         <option value="Cables">Cables</option>

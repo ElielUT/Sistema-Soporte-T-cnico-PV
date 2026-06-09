@@ -168,6 +168,10 @@ btnAgregar.addEventListener("click", async () => {
         if (plainFormData["idinvt1"] !== undefined) {
             plainFormData["idinvt1"] = parseInt(plainFormData["idinvt1"], 10) || 0;
         }
+    } else if (window.paginaActual === "/proceso") {
+        if (plainFormData["idmant1"] !== undefined) {
+            plainFormData["idmant1"] = parseInt(plainFormData["idmant1"], 10) || 0;
+        }
     }
 
     cargando.classList.remove("ocultar");
@@ -191,10 +195,73 @@ btnAgregar.addEventListener("click", async () => {
     }
 });
 
-btnActualizar.addEventListener("click", () => {
-    formEditar.classList.add("ocultar")
+btnActualizar.addEventListener("click", async () => {
+    const id = formEditar.dataset.id;
+    if (!id) return;
+
+    formEditar.classList.add("ocultar");
     btnNuevo.classList.remove("ocultar");
-    formBusqueda.classList.remove("completo")
+    formBusqueda.classList.remove("completo");
+
+    const data = await obtenerRutas();
+    var api = data.url + window.paginaActual + "/" + id;
+    console.log("PUT to api:", api);
+
+    const formEl = formEditar.querySelector("form");
+    const formData = new FormData(formEl);
+    const plainFormData = {};
+
+    formData.forEach((value, key) => {
+        plainFormData[key] = value;
+    });
+
+    // Validar y tipar campos según la vista
+    if (window.paginaActual === "/inventario") {
+        if (plainFormData["cantidad"] !== undefined) {
+            plainFormData["cantidad"] = parseInt(plainFormData["cantidad"], 10) || 0;
+        }
+        if (plainFormData["medida"] !== undefined && plainFormData["medida"] !== "") {
+            plainFormData["medida"] = parseInt(plainFormData["medida"], 10) || null;
+        } else {
+            plainFormData["medida"] = null;
+        }
+    } else if (window.paginaActual === "/producto") {
+        if (plainFormData["idinvt1"] !== undefined) {
+            plainFormData["idinvt1"] = parseInt(plainFormData["idinvt1"], 10) || 0;
+        }
+    } else if (window.paginaActual === "/camara") {
+        if (plainFormData["idprod2"] !== undefined) {
+            plainFormData["idprod2"] = parseInt(plainFormData["idprod2"], 10) || 0;
+        }
+    } else if (window.paginaActual === "/antena") {
+        if (plainFormData["idprod1"] !== undefined) {
+            plainFormData["idprod1"] = parseInt(plainFormData["idprod1"], 10) || 0;
+        }
+    } else if (window.paginaActual === "/proceso") {
+        if (plainFormData["idmant1"] !== undefined) {
+            plainFormData["idmant1"] = parseInt(plainFormData["idmant1"], 10) || 0;
+        }
+    }
+
+    cargando.classList.remove("ocultar");
+    try {
+        const respuesta = await fetch(api, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(plainFormData)
+        });
+        if (!respuesta.ok) {
+            const err = await respuesta.json();
+            alert("Error al actualizar: " + JSON.stringify(err.detail));
+        }
+    } catch (error) {
+        console.error("Error al enviar la petición:", error);
+    } finally {
+        cargando.classList.add("ocultar");
+        window.location.reload();
+    }
 });
 
 btnsEliminar.forEach(btn => {
@@ -223,3 +290,40 @@ btnsEliminar.forEach(btn => {
         }
     })
 })
+
+// Toggle password visibility functionality
+document.addEventListener("click", function (e) {
+    if (e.target && e.target.classList.contains("toggle-password")) {
+        const container = e.target.closest(".password-container");
+        if (container) {
+            const input = container.querySelector("input");
+            if (input) {
+                if (input.type === "password") {
+                    input.type = "text";
+                    e.target.classList.remove("bi-eye-fill");
+                    e.target.classList.add("bi-eye-slash-fill");
+                } else {
+                    input.type = "password";
+                    e.target.classList.remove("bi-eye-slash-fill");
+                    e.target.classList.add("bi-eye-fill");
+                }
+            }
+        }
+    }
+});
+
+// Tab navigation for Mantenimientos and Realizados (Procesos)
+document.addEventListener("DOMContentLoaded", () => {
+    const btnSeccions = document.querySelectorAll(".btn-seccion");
+    btnSeccions.forEach(btn => {
+        btn.addEventListener("click", () => {
+            if (btn.textContent.trim() === "Tipos") {
+                window.location.href = "/mantenimientos";
+            } else if (btn.textContent.trim() === "Realizados") {
+                window.location.href = "/proceso";
+            }
+        });
+    });
+});
+
+
