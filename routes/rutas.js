@@ -1,4 +1,5 @@
 import { Router } from "express";
+import axios from "axios";
 import 'dotenv/config';
 
 const router = Router();
@@ -144,7 +145,10 @@ router.get("/proceso", async (req, res) => {
 
 router.get("/utiliza/:id", async (req, res) => {
     try {
-        res.render("utiliza");
+        const respuesta = await axios.get(`${process.env.URL_API}/utiliza/`)
+        const items = respuesta.data.items;
+        const inventario = respuesta.data.inventario;
+        res.render("utiliza", { items, inventario, idproc1: req.params.id });
     } catch (error) {
         console.error("Error de la api:" + error);
         res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);

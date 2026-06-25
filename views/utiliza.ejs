@@ -15,8 +15,14 @@
 
         <form action="">
             <div class="dosUnoR">
-                <select name="producto" id="">
+                <input type="hidden" name="idproc1" id="idproc1" value="<%= idproc1 %>">
+                <select name="idinvt2" id="" data-searchable="true">
                     <option value="" disabled selected>Seleccione un producto</option>
+                    <% inventario.forEach(inv=> { %>
+                        <option value="<%= inv.idinvt %>">
+                            <%= inv.producto %>
+                        </option>
+                        <% }) %>
                 </select>
                 <input type="number" name="cantidad" id="" placeholder="Cantidad" min="0">
             </div>
@@ -32,6 +38,21 @@
             </tr>
         </thead>
         <tbody>
+            <% items.forEach(item=> { %>
+                <tr id="<%= item.idutiliza %>" data-idproc1="<%= item.idproc1 %>" data-idinvt2="<%= item.idinvt2 %>"
+                    data-cantidad="<%= item.cantidad %>">
+                    <td>
+                        <%= inventario.find(inv=> inv.idinvt === item.idinvt2)?.producto || 'N/A' %>
+                    </td>
+                    <td>
+                        <%= item.cantidad %>
+                    </td>
+                    <td style="width: 50px; text-align: center;">
+                        <i class="bi bi-trash-fill eliminar"></i>
+                        <i class="bi bi-pencil-fill editar"></i>
+                    </td>
+                </tr>
+                <% }) %>
         </tbody>
     </table>
     </div>
@@ -43,16 +64,23 @@
             </div>
 
             <form action="">
+                <input type="hidden" name="idproc1" id="idproc1" value="<%= idproc1 %>">
                 <div class="dosUnoR">
-                    <select name="producto" id="">
+                    <select name="idinvt2" id="" data-searchable="true">
                         <option value="" disabled selected>Seleccione un producto</option>
+                        <% inventario.forEach(inv=> { %>
+                            <option value="<%= inv.idinvt %>">
+                                <%= inv.producto %>
+                            </option>
+                            <% }) %>
                     </select>
                     <input type="number" name="cantidad" id="" placeholder="Cantidad" min="0">
                 </div>
             </form>
         </div>
 
+        <script src="/js/searchable-select.js"></script>
         <script>
-            window.paginaActual = "/proceso"
+            window.paginaActual = "/utiliza"
         </script>
         <%- include ("templates/footer") %>

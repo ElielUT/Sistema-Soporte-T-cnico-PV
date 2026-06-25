@@ -57,12 +57,13 @@
             </thead>
             <tbody>
                 <% data.forEach(item=> { %>
-                    <tr>
+                    <tr id="<%= item.idmant %>" data-areas="<%= item.areas %>" data-dia="<%= item.dia %>"
+                        data-mes="<%= item.mes %>">
                         <td>
                             <%= item.idmant %>
                         </td>
                         <td>
-                            <%= item.area %>
+                            <%= item.areas %>
                         </td>
                         <td>
                             <%= item.dia %>
@@ -70,7 +71,10 @@
                         <td>
                             <%= item.mes %>
                         </td>
-                        <td></td>
+                        <td style="width: 50px; text-align: center;">
+                            <i class="bi bi-trash-fill eliminar"></i>
+                            <i class="bi bi-pencil-fill editar"></i>
+                        </td>
                     </tr>
                     <% }) %>
             </tbody>
