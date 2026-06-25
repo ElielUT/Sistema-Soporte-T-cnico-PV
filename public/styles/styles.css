@@ -462,6 +462,21 @@ table tbody td {
     width: 32.5%;
 }
 
+.ingresar .dosUnoR {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-bottom: 20px;
+    justify-content: space-between;
+}
+
+.ingresar .dosUnoR input {
+    width: 32.5%;
+}
+
+.ingresar .dosUnoR select {
+    width: 64%;
+}
 
 .ingresar .dosMedio {
     display: flex;

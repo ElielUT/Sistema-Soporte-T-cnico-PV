@@ -142,6 +142,15 @@ router.get("/proceso", async (req, res) => {
     }
 })
 
+router.get("/utiliza/:id", async (req, res) => {
+    try {
+        res.render("utiliza");
+    } catch (error) {
+        console.error("Error de la api:" + error);
+        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
+    }
+})
+
 router.get("/rutas", (req, res) => {
     res.json({
         url: process.env.URL_API

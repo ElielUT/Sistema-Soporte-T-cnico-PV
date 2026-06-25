@@ -1,0 +1,58 @@
+<%- include ("templates/header_superior", {titulo: "Mantenimiento" , pagAnterior: "/proceso" }) %>
+    <div class="buscador">
+        <form action="" id="formBusqueda" class="formBusqueda">
+            <input type="text" name="Buscar" placeholder="Buscar" style="width: 100%;">
+        </form>
+
+        <button class="nuevo" id="nuevo"><b>+ Nuevo</b></button>
+    </div>
+
+    <div class="ingresar ocultar modales" id="formNuevo">
+        <div class="botones">
+            <button class="cancelar"><b>Cancelar</b></button>
+            <button class="agregar" id="agregar"><b>+ Agregar</b></button>
+        </div>
+
+        <form action="">
+            <div class="dosUnoR">
+                <select name="producto" id="">
+                    <option value="" disabled selected>Seleccione un producto</option>
+                </select>
+                <input type="number" name="cantidad" id="" placeholder="Cantidad" min="0">
+            </div>
+        </form>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    </div>
+    <div class="contenedorForm ocultar modales" id="formEditar">
+        <div class="formEditar ingresar">
+            <div class="botones">
+                <button class="cancelar"><b>Cancelar</b></button>
+                <button class="actualizar" id="actualizar"><b>Actualizar</b></button>
+            </div>
+
+            <form action="">
+                <div class="dosUnoR">
+                    <select name="producto" id="">
+                        <option value="" disabled selected>Seleccione un producto</option>
+                    </select>
+                    <input type="number" name="cantidad" id="" placeholder="Cantidad" min="0">
+                </div>
+            </form>
+        </div>
+
+        <script>
+            window.paginaActual = "/proceso"
+        </script>
+        <%- include ("templates/footer") %>
