@@ -1,100 +1,109 @@
 <%- include("templates/header.ejs") %>
-
-    <h1>Contraseñas</h1>
-
-    <div class="buscador">
-        <form action="" id="formBusqueda" class="formBusqueda">
-            <input type="text" name="Buscar" placeholder="Buscar">
-            <select name="categoria" id="">
-                <option value="">Todas</option>
-                <option value="Antenas">Antenas</option>
-                <option value="Cámaras">Cámaras</option>
-                <option value="Redes Wifi">Redes Wifi</option>
-                <option value="Sistemas / Cuentas">Sistemas / Cuentas</option>
-            </select>
-        </form>
-
-        <button class="nuevo" id="nuevo"><b>+ Nuevo</b></button>
+    <div class="superior">
+        <h1>Recursos</h1>
+        <div class="secciones">
+            <button class="btn-seccion seleccionado" id="btnContraseñas">Contraseñas</button>
+            <button class="btn-seccion" id="btnDocumentos">Documentos</button>
+        </div>
     </div>
 
-    <div class="ingresar ocultar modales" id="formNuevo">
-        <div class="botones">
-            <button class="cancelar"><b>Cancelar</b></button>
-            <button class="agregar" id="agregar"><b>+ Agregar</b></button>
-        </div>
-
-        <form action="">
-            <div class="dos">
-                <input type="text" name="nombre" id="" placeholder="Nombre">
+    <div class="seccion">
+        <div class="buscador">
+            <form action="" id="formBusqueda" class="formBusqueda">
+                <input type="text" name="Buscar" placeholder="Buscar">
                 <select name="categoria" id="">
-                    <option value="">Categoría</option>
+                    <option value="">Todas</option>
                     <option value="Antenas">Antenas</option>
                     <option value="Cámaras">Cámaras</option>
                     <option value="Redes Wifi">Redes Wifi</option>
                     <option value="Sistemas / Cuentas">Sistemas / Cuentas</option>
                 </select>
-            </div>
-            <div class="dos">
-                <input type="text" name="usuario" id="" placeholder="Usuario">
-                <div class="password-container">
-                    <input type="password" name="password" id="" placeholder="Contraseña">
-                    <i class="bi bi-eye-fill toggle-password"></i>
-                </div>
-            </div>
-        </form>
-    </div>
+            </form>
 
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    ID
-                </th>
-                <th>
-                    Nombre
-                </th>
-                <th>
-                    Categoría
-                </th>
-                <th>
-                    Password
-                </th>
-                <th>
-                    Usuario
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <% data.forEach(item=> { %>
-                <tr id="<%= item.id_pass %>" data-nombre="<%= item.nombre %>" data-categoria="<%= item.categoria %>"
-                    data-password="<%= item.password %>" data-usuario="<%= item.usuario %>">
-                    <td>
-                        <%= item.id_pass %>
-                    </td>
-                    <td>
-                        <%= item.nombre %>
-                    </td>
-                    <td>
-                        <%= item.categoria %>
-                    </td>
-                    <td>
-                        <div class="password-container table-password">
-                            <input type="password" value="<%= item.password %>" readonly class="table-password-input">
-                            <i class="bi bi-eye-fill toggle-password"></i>
-                        </div>
-                    </td>
-                    <td>
-                        <%= item.usuario %>
-                    </td>
-                    <td style="width: 50px; text-align: center;">
-                        <i class="bi bi-trash-fill eliminar"></i>
-                        <i class="bi bi-pencil-fill editar"></i>
-                    </td>
+            <button class="nuevo" id="nuevo"><b>+ Nuevo</b></button>
+        </div>
+
+        <div class="ingresar ocultar modales" id="formNuevo">
+            <div class="botones">
+                <button class="cancelar"><b>Cancelar</b></button>
+                <button class="agregar" id="agregar"><b>+ Agregar</b></button>
+            </div>
+
+            <form action="">
+                <div class="dos">
+                    <input type="text" name="nombre" id="" placeholder="Nombre">
+                    <select name="categoria" id="">
+                        <option value="">Categoría</option>
+                        <option value="Antenas">Antenas</option>
+                        <option value="Cámaras">Cámaras</option>
+                        <option value="Redes Wifi">Redes Wifi</option>
+                        <option value="Sistemas / Cuentas">Sistemas / Cuentas</option>
+                    </select>
+                </div>
+                <div class="dos">
+                    <input type="text" name="usuario" id="" placeholder="Usuario">
+                    <div class="password-container">
+                        <input type="password" name="password" id="" placeholder="Contraseña">
+                        <i class="bi bi-eye-fill toggle-password"></i>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Categoría
+                    </th>
+                    <th>
+                        Password
+                    </th>
+                    <th>
+                        Usuario
+                    </th>
+                    <th></th>
                 </tr>
-                <% }) %>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <% data.forEach(item=> { %>
+                    <tr id="<%= item.id_pass %>" data-nombre="<%= item.nombre %>" data-categoria="<%= item.categoria %>"
+                        data-password="<%= item.password %>" data-usuario="<%= item.usuario %>">
+                        <td>
+                            <%= item.id_pass %>
+                        </td>
+                        <td>
+                            <%= item.nombre %>
+                        </td>
+                        <td>
+                            <%= item.categoria %>
+                        </td>
+                        <td>
+                            <div class="password-container table-password">
+                                <input type="password" value="<%= item.password %>" readonly
+                                    class="table-password-input">
+                                <i class="bi bi-eye-fill toggle-password"></i>
+                            </div>
+                        </td>
+                        <td>
+                            <%= item.usuario %>
+                        </td>
+                        <td style="width: 50px; text-align: center;">
+                            <i class="bi bi-trash-fill eliminar"></i>
+                            <i class="bi bi-pencil-fill editar"></i>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+    </div>
 
     <div class="contenedorForm ocultar modales" id="formEditar">
         <div class="formEditar ingresar">
@@ -127,4 +136,5 @@
         <script>
             window.paginaActual = "/passwords"
         </script>
+        <script src="js/recursos.js"></script>
         <%- include("templates/footer.ejs") %>

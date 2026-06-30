@@ -399,6 +399,18 @@ table tbody td {
     font-weight: bold;
 }
 
+.ingresar form input[type="file"]::file-selector-button {
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: var(--colorPrincipal);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 1px;
+    margin-right: 10px;
+}
+
 .ingresar form select {
     appearance: none;
     -webkit-appearance: none;

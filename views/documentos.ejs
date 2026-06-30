@@ -1,0 +1,94 @@
+<%- include("templates/header.ejs") %>
+    <div class="superior">
+        <h1>Recursos</h1>
+        <div class="secciones">
+            <button class="btn-seccion" id="btnContraseñas">Contraseñas</button>
+            <button class="btn-seccion seleccionado" id="btnDocumentos">Documentos</button>
+        </div>
+    </div>
+
+    <div class="seccion">
+        <div class="buscador">
+            <form action="" id="formBusqueda" class="formBusqueda">
+                <input type="text" name="Buscar" placeholder="Buscar">
+                <select name="categoria" id="">
+                    <option value="">Todas</option>
+                    <option value="Instrucciones">Instrucciones</option>
+                    <option value="Formatos">Formatos</option>
+                    <option value="Reportes">Reportes</option>
+                    <option value="Plantillas">Plantillas</option>
+                    <option value="Otros">Otros</option>
+                </select>
+            </form>
+
+            <button class="nuevo" id="nuevo"><b>+ Nuevo</b></button>
+        </div>
+
+        <div class="ingresar ocultar modales" id="formNuevo">
+            <div class="botones">
+                <button class="cancelar"><b>Cancelar</b></button>
+                <button class="agregar" id="agregar"><b>+ Agregar</b></button>
+            </div>
+
+            <form action="">
+                <div class="dosUno">
+                    <input type="file" name="nombre" id="" placeholder="Nombre" style="padding: 0px;">
+                    <select name="categoria" id="">
+                        <option value="">Categoría</option>
+                        <option value="Instrucciones">Instrucciones</option>
+                        <option value="Formatos">Formatos</option>
+                        <option value="Reportes">Reportes</option>
+                        <option value="Plantillas">Plantillas</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Categoría
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    </div>
+
+    <div class="contenedorForm ocultar modales" id="formEditar">
+        <div class="formEditar ingresar">
+            <div class="botones">
+                <button class="cancelar"><b>Cancelar</b></button>
+                <button class="actualizar" id="actualizar"><b>Actualizar</b></button>
+            </div>
+
+            <form action="">
+                <div class="dosUno">
+                    <input type="file" name="nombre" id="" placeholder="Nombre" style="padding: 0px;">
+                    <select name="categoria" id="">
+                        <option value="">Categoría</option>
+                        <option value="Instrucciones">Instrucciones</option>
+                        <option value="Formatos">Formatos</option>
+                        <option value="Reportes">Reportes</option>
+                        <option value="Plantillas">Plantillas</option>
+                        <option value="Otros">Otros</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <script>
+            window.paginaActual = "/documentos"
+        </script>
+        <script src="js/recursos.js"></script>
+
+        <%- include("templates/footer.ejs") %>
