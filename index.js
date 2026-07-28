@@ -4,6 +4,7 @@ import rutas from "./routes/rutas.js"
 import 'dotenv/config';
 import cors from "cors";
 import compression from "compression";
+import { catalogos } from "./config/catalogos.js";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(session({
 
 app.use(express.urlencoded({ extended: true }))
 app.set("view engine", "ejs");
+app.locals.catalogos = catalogos;
 app.use(express.static("public"));
 app.use("/", rutas);
 

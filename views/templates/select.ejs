@@ -1,0 +1,8 @@
+<select name="<%= nombre %>" id="">
+    <% if (typeof placeholder !== 'undefined') { %>
+        <option value=""><%= placeholder %></option>
+    <% } %>
+    <% opciones.forEach(op => { %>
+        <option value="<%= op.valor !== undefined ? op.valor : op %>"<%= op.seleccionado ? ' selected' : '' %>><%= op.texto !== undefined ? op.texto : op %></option>
+    <% }) %>
+</select>

@@ -1,24 +1,12 @@
-async function obtenerRutas() {
-    const res = await fetch("/rutas");
-    const data = await res.json();
-    return data;
-}
-
-
 // Manejador de clics para las flechas personalizadas de input[type="number"]
 document.addEventListener('click', function (e) {
     if (e.target.tagName === 'INPUT' && e.target.type === 'number') {
         if (e.target.disabled || e.target.readOnly) return;
-        const rect = e.target.getBoundingClientRect();
-        const clickX = e.clientX - rect.left;
-        const clickY = e.clientY - rect.top;
-        const width = rect.width;
-        const height = rect.height;
+        const posicion = posicionEnInputNumero(e);
 
-        // Si hizo clic en la zona derecha (40px) donde están las flechas
-        if (clickX > width - 40) {
+        if (posicion.enFlechas) {
             e.preventDefault();
-            if (clickY < height / 2) {
+            if (posicion.y < posicion.alto / 2) {
                 e.target.stepUp();
             } else {
                 e.target.stepDown();
@@ -37,14 +25,7 @@ document.addEventListener('mousemove', function (e) {
             e.target.style.cursor = 'not-allowed';
             return;
         }
-        const rect = e.target.getBoundingClientRect();
-        const clickX = e.clientX - rect.left;
-        const width = rect.width;
-        if (clickX > width - 40) {
-            e.target.style.cursor = 'pointer';
-        } else {
-            e.target.style.cursor = 'text';
-        }
+        e.target.style.cursor = posicionEnInputNumero(e).enFlechas ? 'pointer' : 'text';
     }
 });
 
@@ -55,20 +36,54 @@ var btnNuevo = document.getElementById("nuevo"),
     formNuevo = document.getElementById("formNuevo"),
     formEditar = document.getElementById("formEditar"),
     btnsEditar = document.querySelectorAll(".editar"),
-    cargando = document.getElementById("cargando"),
     btnActualizar = document.getElementById("actualizar"),
     btnsEliminar = document.querySelectorAll(".eliminar");
 
+function mostrarFormularioNuevo(mostrar) {
+    formNuevo.classList.toggle("ocultar", !mostrar);
+    btnNuevo.classList.toggle("ocultar", mostrar);
+    formBusqueda.classList.toggle("completo", mostrar);
+}
+
+async function urlApi(sufijo = "") {
+    const data = await obtenerRutas();
+    return data.url + window.paginaActual + "/" + sufijo;
+}
+
+// Convierte a número los campos que la API espera como enteros en cada vista.
+function tiparCampos(datos, { esNuevo, formEl }) {
+    if (window.paginaActual === "/inventario") {
+        if (esNuevo) {
+            const subcatCheckbox = formEl.querySelector('input[name="subcategoria"]');
+            datos["subcategoria"] = subcatCheckbox ? subcatCheckbox.checked : false;
+            if (datos["subcategoria"]) {
+                datos["cantidad"] = 0;
+            } else {
+                aEntero(datos, "cantidad");
+            }
+        } else {
+            aEntero(datos, "cantidad");
+        }
+        aEnteroONulo(datos, "medida");
+    } else if (window.paginaActual === "/producto") {
+        aEntero(datos, "idinvt1");
+    } else if (window.paginaActual === "/camara") {
+        aEntero(datos, "idprod2");
+    } else if (window.paginaActual === "/antena") {
+        aEntero(datos, "idprod1");
+    } else if (window.paginaActual === "/proceso") {
+        aEntero(datos, "idmant1");
+    }
+}
+
 btnNuevo.addEventListener("click", () => {
-    formNuevo.classList.remove("ocultar");
-    btnNuevo.classList.add("ocultar");
-    formBusqueda.classList.add("completo")
+    mostrarFormularioNuevo(true);
 });
 
 btnsEditar.forEach(btn => {
     btn.addEventListener("click", () => {
         var id = btn.parentElement.parentElement.id;
-        cargando.classList.remove("ocultar");
+        alternarCarga(true);
 
         // Comprobación si está en "/inventario" y tiene subcategoría
         if (window.paginaActual === "/inventario") {
@@ -111,31 +126,25 @@ btnsEditar.forEach(btn => {
             });
         }
 
-        cargando.classList.add("ocultar");
+        alternarCarga(false);
         formEditar.classList.remove("ocultar");
     })
 });
 
 btnCancelar.forEach(btn => {
     btn.addEventListener("click", () => {
-        formNuevo.classList.add("ocultar")
-        formEditar.classList.add("ocultar")
+        formEditar.classList.add("ocultar");
+        mostrarFormularioNuevo(false);
         const fEdit = formEditar.querySelector("form");
         if (fEdit) fEdit.reset();
         const fNew = formNuevo.querySelector("form");
         if (fNew) fNew.reset();
-        btnNuevo.classList.remove("ocultar");
-        formBusqueda.classList.remove("completo")
     })
 });
 
 btnAgregar.addEventListener("click", async () => {
-    const data = await obtenerRutas();
-    var api = data.url + window.paginaActual + "/";
-    formNuevo.classList.add("ocultar")
-    btnNuevo.classList.remove("ocultar");
-    formBusqueda.classList.remove("completo");
-    console.log(api)
+    const api = await urlApi();
+    mostrarFormularioNuevo(false);
 
     const formEl = formNuevo.querySelector("form");
 
@@ -143,9 +152,7 @@ btnAgregar.addEventListener("click", async () => {
         const fileInput = formEl.querySelector('input[type="file"]');
         if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
             alert("Por favor seleccione un archivo para subir.");
-            formNuevo.classList.remove("ocultar");
-            btnNuevo.classList.add("ocultar");
-            formBusqueda.classList.add("completo");
+            mostrarFormularioNuevo(true);
             return;
         }
         const fileFormData = new FormData();
@@ -155,81 +162,19 @@ btnAgregar.addEventListener("click", async () => {
             fileFormData.append("categoria", catSelect.value);
         }
 
-        var targetApi = data.url + "/documento/";
-        cargando.classList.remove("ocultar");
-        try {
-            const respuesta = await fetch(targetApi, {
-                method: "POST",
-                body: fileFormData
-            });
-            if (!respuesta.ok) {
-                const err = await respuesta.json();
-                alert("Error al subir archivo: " + JSON.stringify(err.detail));
-            }
-        } catch (error) {
-            console.error("Error al enviar la petición:", error);
-        } finally {
-            cargando.classList.add("ocultar");
-            window.location.reload();
-        }
+        await enviarPeticion({
+            url: (await obtenerRutas()).url + "/documento/",
+            metodo: "POST",
+            cuerpo: fileFormData,
+            mensajeError: "Error al subir archivo"
+        });
         return;
     }
 
-    const formData = new FormData(formEl);
-    const plainFormData = {};
+    const datos = formularioAObjeto(formEl);
+    tiparCampos(datos, { esNuevo: true, formEl });
 
-    formData.forEach((value, key) => {
-        plainFormData[key] = value;
-    });
-
-    // Validar y tipar campos según la vista
-    if (window.paginaActual === "/inventario") {
-        const subcatCheckbox = formEl.querySelector('input[name="subcategoria"]');
-        const isSubcategoria = subcatCheckbox ? subcatCheckbox.checked : false;
-        plainFormData["subcategoria"] = isSubcategoria;
-
-        if (isSubcategoria) {
-            plainFormData["cantidad"] = 0;
-        } else {
-            if (plainFormData["cantidad"] !== undefined) {
-                plainFormData["cantidad"] = parseInt(plainFormData["cantidad"], 10) || 0;
-            }
-        }
-
-        if (plainFormData["medida"] !== undefined && plainFormData["medida"] !== "") {
-            plainFormData["medida"] = parseInt(plainFormData["medida"], 10) || null;
-        } else {
-            plainFormData["medida"] = null;
-        }
-    } else if (window.paginaActual === "/producto") {
-        if (plainFormData["idinvt1"] !== undefined) {
-            plainFormData["idinvt1"] = parseInt(plainFormData["idinvt1"], 10) || 0;
-        }
-    } else if (window.paginaActual === "/proceso") {
-        if (plainFormData["idmant1"] !== undefined) {
-            plainFormData["idmant1"] = parseInt(plainFormData["idmant1"], 10) || 0;
-        }
-    }
-
-    cargando.classList.remove("ocultar");
-    try {
-        const respuesta = await fetch(api, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(plainFormData)
-        });
-        if (!respuesta.ok) {
-            const err = await respuesta.json();
-            alert("Error al guardar: " + JSON.stringify(err.detail));
-        }
-    } catch (error) {
-        console.error("Error al enviar la petición:", error);
-    } finally {
-        cargando.classList.add("ocultar");
-        window.location.reload();
-    }
+    await enviarPeticion({ url: api, metodo: "POST", cuerpo: datos, mensajeError: "Error al guardar" });
 });
 
 btnActualizar.addEventListener("click", async () => {
@@ -237,117 +182,26 @@ btnActualizar.addEventListener("click", async () => {
     if (!id) return;
 
     formEditar.classList.add("ocultar");
-    btnNuevo.classList.remove("ocultar");
-    formBusqueda.classList.remove("completo");
+    mostrarFormularioNuevo(false);
 
-    const data = await obtenerRutas();
-    var api = data.url + window.paginaActual + "/" + id;
-    console.log("PUT to api:", api);
-
+    const api = await urlApi(id);
     const formEl = formEditar.querySelector("form");
-    const formData = new FormData(formEl);
-    const plainFormData = {};
+    const datos = formularioAObjeto(formEl);
+    tiparCampos(datos, { esNuevo: false, formEl });
 
-    formData.forEach((value, key) => {
-        plainFormData[key] = value;
-    });
-
-    // Validar y tipar campos según la vista
-    if (window.paginaActual === "/inventario") {
-        if (plainFormData["cantidad"] !== undefined) {
-            plainFormData["cantidad"] = parseInt(plainFormData["cantidad"], 10) || 0;
-        }
-        if (plainFormData["medida"] !== undefined && plainFormData["medida"] !== "") {
-            plainFormData["medida"] = parseInt(plainFormData["medida"], 10) || null;
-        } else {
-            plainFormData["medida"] = null;
-        }
-    } else if (window.paginaActual === "/producto") {
-        if (plainFormData["idinvt1"] !== undefined) {
-            plainFormData["idinvt1"] = parseInt(plainFormData["idinvt1"], 10) || 0;
-        }
-    } else if (window.paginaActual === "/camara") {
-        if (plainFormData["idprod2"] !== undefined) {
-            plainFormData["idprod2"] = parseInt(plainFormData["idprod2"], 10) || 0;
-        }
-    } else if (window.paginaActual === "/antena") {
-        if (plainFormData["idprod1"] !== undefined) {
-            plainFormData["idprod1"] = parseInt(plainFormData["idprod1"], 10) || 0;
-        }
-    } else if (window.paginaActual === "/proceso") {
-        if (plainFormData["idmant1"] !== undefined) {
-            plainFormData["idmant1"] = parseInt(plainFormData["idmant1"], 10) || 0;
-        }
-    }
-
-    cargando.classList.remove("ocultar");
-    try {
-        const respuesta = await fetch(api, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(plainFormData)
-        });
-        if (!respuesta.ok) {
-            const err = await respuesta.json();
-            alert("Error al actualizar: " + JSON.stringify(err.detail));
-        }
-    } catch (error) {
-        console.error("Error al enviar la petición:", error);
-    } finally {
-        cargando.classList.add("ocultar");
-        window.location.reload();
-    }
+    await enviarPeticion({ url: api, metodo: "PUT", cuerpo: datos, mensajeError: "Error al actualizar" });
 });
 
 btnsEliminar.forEach(btn => {
     btn.addEventListener("click", async () => {
         var id = btn.parentElement.parentElement.id;
-        cargando.classList.remove("ocultar");
-        const data = await obtenerRutas();
-        var api = data.url + window.paginaActual + "/" + id;
-        try {
-            const respuesta = await fetch(api, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            });
-            if (!respuesta.ok) {
-                const err = await respuesta.json();
-                alert("Error al guardar: " + JSON.stringify(err.detail));
-            }
-        } catch (error) {
-            console.error("Error al enviar la petición:", error);
-        } finally {
-            console.log(api);
-            cargando.classList.add("ocultar");
-            window.location.reload();
-        }
+        alternarCarga(true);
+        const api = await urlApi(id);
+        await enviarPeticion({ url: api, metodo: "DELETE", mensajeError: "Error al guardar" });
     })
-})
-
-// Toggle password visibility functionality
-document.addEventListener("click", function (e) {
-    if (e.target && e.target.classList.contains("toggle-password")) {
-        const container = e.target.closest(".password-container");
-        if (container) {
-            const input = container.querySelector("input");
-            if (input) {
-                if (input.type === "password") {
-                    input.type = "text";
-                    e.target.classList.remove("bi-eye-fill");
-                    e.target.classList.add("bi-eye-slash-fill");
-                } else {
-                    input.type = "password";
-                    e.target.classList.remove("bi-eye-slash-fill");
-                    e.target.classList.add("bi-eye-fill");
-                }
-            }
-        }
-    }
 });
+
+inicializarTogglePassword();
 
 // Tab navigation for Mantenimientos and Realizados (Procesos)
 document.addEventListener("DOMContentLoaded", () => {
@@ -362,5 +216,3 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
-
-

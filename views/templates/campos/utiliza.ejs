@@ -1,0 +1,12 @@
+<input type="hidden" name="idproc1" id="idproc1" value="<%= idproc1 %>">
+<div class="dosUnoR">
+    <select name="idinvt2" id="" data-searchable="true">
+        <option value="" disabled selected>Seleccione un producto</option>
+        <% inventario.forEach(inv => { %>
+            <option value="<%= inv.idinvt %>">
+                <%= inv.producto %>
+            </option>
+        <% }) %>
+    </select>
+    <input type="number" name="cantidad" id="" placeholder="Cantidad" min="0">
+</div>

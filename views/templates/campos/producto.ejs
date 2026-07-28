@@ -1,0 +1,10 @@
+<input type="hidden" name="idinvt1" value="<%= data.idinvt %>">
+<div class="tres">
+    <input type="text" placeholder="Numero de Serie" name="noserie">
+    <%- include("../select", { nombre: "estado", opciones: catalogos.estadosProducto }) %>
+    <input type="text" name="marca" id="" placeholder="Marca">
+</div>
+<div class="dos">
+    <input type="text" name="modelo" id="" placeholder="Modelo">
+    <input type="text" name="cvlicencia" id="" placeholder="Clave de licencia">
+</div>

@@ -1,0 +1,16 @@
+<div class="tres">
+    <select name="idprod2" id="">
+        <option value="">Seleccione un producto</option>
+        <% productos.forEach(prod => { %>
+            <option value="<%= prod.idprod %>">
+                <%= prod.modelo %> <%= prod.noserie %>
+            </option>
+        <% }) %>
+    </select>
+    <input type="text" name="nombre" id="" placeholder="Nombre">
+    <input type="text" name="direccioip" id="" placeholder="Dirección IP">
+</div>
+<div class="dos">
+    <input type="text" name="ubicacion" id="" placeholder="Ubicación">
+    <input type="text" name="conexion" id="" placeholder="Conexión">
+</div>

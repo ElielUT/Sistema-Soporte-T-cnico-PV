@@ -8,51 +8,14 @@
         <div class="buscador">
             <form action="" id="formBusqueda" class="formBusqueda">
                 <input type="text" name="Buscar" placeholder="Buscar">
-                <select name="marca" id="">
-                    <option value="">Todas</option>
-                    <% marcas.forEach(marca=> { %>
-                        <option value="<%= marca %>">
-                            <%= marca %>
-                        </option>
-                        <% }) %>
-                </select>
-                <select name="modelo" id="">
-                    <option value="">Todos</option>
-                    <% modelos.forEach(modelo=> { %>
-                        <option value="<%= modelo %>">
-                            <%= modelo %>
-                        </option>
-                        <% }) %>
-                </select>
+                <%- include("templates/select", { nombre: "marca", placeholder: "Todas", opciones: marcas }) %>
+                <%- include("templates/select", { nombre: "modelo", placeholder: "Todos", opciones: modelos }) %>
             </form>
 
             <button class="nuevo" id="nuevo"><b>+ Nuevo</b></button>
         </div>
 
-        <div class="ingresar ocultar modales" id="formNuevo">
-            <div class="botones">
-                <button class="cancelar"><b>Cancelar</b></button>
-                <button class="agregar" id="agregar"><b>+ Agregar</b></button>
-            </div>
-
-            <form action="">
-                <input type="hidden" name="idinvt1" value="<%= data.idinvt %>">
-                <div class="tres">
-                    <input type="text" placeholder="Numero de Serie" name="noserie">
-                    <select name="estado" id="">
-                        <option value="En uso">En uso</option>
-                        <option value="Funcionado">Funcionado</option>
-                        <option value="Pendiente de Revisión">Pendiente de revisión</option>
-                        <option value="En Reparación">En reparación</option>
-                    </select>
-                    <input type="text" name="marca" id="" placeholder="Marca">
-                </div>
-                <div class="dos">
-                    <input type="text" name="modelo" id="" placeholder="Modelo">
-                    <input type="text" name="cvlicencia" id="" placeholder="Clave de licencia">
-                </div>
-            </form>
-        </div>
+        <%- include("templates/form_nuevo", { campos: "campos/producto" }) %>
 
         <table>
             <thead>
@@ -89,42 +52,14 @@
                         <td>
                             <%= item.cvlicencia %>
                         </td>
-                        <td style="width: 50px; text-align: center;">
-                            <form action=""><input type="hidden" name="subcategoria" value="<%= item.subcategoria %>">
-                            </form>
-                            <i class="bi bi-trash-fill eliminar"></i>
-                            <i class="bi bi-pencil-fill editar"></i>
-                        </td>
+                        <%- include("templates/acciones", { subcategoria: item.subcategoria }) %>
                     </tr>
                     <% }) %>
             </tbody>
         </table>
         </div>
-        <div class="contenedorForm ocultar modales" id="formEditar">
-            <div class="formEditar ingresar">
-                <div class="botones">
-                    <button class="cancelar"><b>Cancelar</b></button>
-                    <button class="actualizar" id="actualizar"><b>Actualizar</b></button>
-                </div>
 
-                <form action="">
-                    <input type="hidden" name="idinvt1" value="<%= data.idinvt %>">
-                    <div class="tres">
-                        <input type="text" placeholder="Numero de Serie" name="noserie">
-                        <select name="estado" id="">
-                            <option value="En uso">En uso</option>
-                            <option value="Funcionado">Funcionado</option>
-                            <option value="Pendiente de Revisión">Pendiente de revisión</option>
-                            <option value="En Reparación">En reparación</option>
-                        </select>
-                        <input type="text" name="marca" id="" placeholder="Marca">
-                    </div>
-                    <div class="dos">
-                        <input type="text" name="modelo" id="" placeholder="Modelo">
-                        <input type="text" name="cvlicencia" id="" placeholder="Clave de licencia">
-                    </div>
-                </form>
-            </div>
+        <%- include("templates/form_editar", { campos: "campos/producto" }) %>
 
             <script>
                 window.paginaActual = "/producto"

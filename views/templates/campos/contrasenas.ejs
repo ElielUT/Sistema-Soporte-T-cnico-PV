@@ -1,0 +1,11 @@
+<div class="dos">
+    <input type="text" name="nombre" id="" placeholder="Nombre">
+    <%- include("../select", { nombre: "categoria", placeholder: "Categoría", opciones: catalogos.categoriasContrasenas }) %>
+</div>
+<div class="dos">
+    <input type="text" name="usuario" id="" placeholder="Usuario">
+    <div class="password-container">
+        <input type="password" name="password" id="" placeholder="Contraseña">
+        <i class="bi bi-eye-fill toggle-password"></i>
+    </div>
+</div>
