@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
     const { usuario, password } = req.body;
     if (usuario === process.env.USUARIO && password === process.env.CONTRASENA) {
+        req.session.autenticado = true;
         res.redirect("/inventario");
     } else {
         res.redirect("/");
@@ -18,6 +19,10 @@ router.post("/", (req, res) => {
 })
 
 router.get("/inventario", async (req, res) => {
+    if (!req.session.autenticado) {
+        res.redirect("/");
+        return;
+    }
     try {
         const respuesta = await fetch(`${process.env.URL_API}/inventario/`,
             {
@@ -37,6 +42,10 @@ router.get("/inventario", async (req, res) => {
 })
 
 router.get("/productos/:id", async (req, res) => {
+    if (!req.session.autenticado) {
+        res.redirect("/");
+        return;
+    }
     try {
         const respuesta = await fetch(`${process.env.URL_API}/producto/${req.params.id}`,
             {
@@ -56,6 +65,10 @@ router.get("/productos/:id", async (req, res) => {
 })
 
 router.get("/camaras", async (req, res) => {
+    if (!req.session.autenticado) {
+        res.redirect("/");
+        return;
+    }
     try {
         const respuesta = await fetch(`${process.env.URL_API}/camara/`, {
             method: "GET",
@@ -74,6 +87,10 @@ router.get("/camaras", async (req, res) => {
 })
 
 router.get("/antenas", async (req, res) => {
+    if (!req.session.autenticado) {
+        res.redirect("/");
+        return;
+    }
     try {
         const respuesta = await fetch(`${process.env.URL_API}/antena/`, {
             method: "GET",
@@ -92,6 +109,10 @@ router.get("/antenas", async (req, res) => {
 })
 
 router.get("/contrasenas", async (req, res) => {
+    if (!req.session.autenticado) {
+        res.redirect("/");
+        return;
+    }
     try {
         const respuesta = await fetch(`${process.env.URL_API}/passwords/`, {
             method: "GET",
@@ -109,6 +130,10 @@ router.get("/contrasenas", async (req, res) => {
 })
 
 router.get("/documentos", async (req, res) => {
+    if (!req.session.autenticado) {
+        res.redirect("/");
+        return;
+    }
     try {
         const respuesta = await fetch(`${process.env.URL_API}/documento/`, {
             method: "GET",
@@ -126,6 +151,10 @@ router.get("/documentos", async (req, res) => {
 })
 
 router.get("/mantenimientos", async (req, res) => {
+    if (!req.session.autenticado) {
+        res.redirect("/");
+        return;
+    }
     try {
         const respuesta = await fetch(`${process.env.URL_API}/mantenimientos/`, {
             method: "GET",
@@ -143,6 +172,10 @@ router.get("/mantenimientos", async (req, res) => {
 })
 
 router.get("/proceso", async (req, res) => {
+    if (!req.session.autenticado) {
+        res.redirect("/");
+        return;
+    }
     try {
         const respuesta = await fetch(`${process.env.URL_API}/proceso/`, {
             method: "GET",
@@ -161,6 +194,10 @@ router.get("/proceso", async (req, res) => {
 })
 
 router.get("/utiliza/:id", async (req, res) => {
+    if (!req.session.autenticado) {
+        res.redirect("/");
+        return;
+    }
     try {
         const respuesta = await axios.get(`${process.env.URL_API}/utiliza/`)
         const items = respuesta.data.items;
