@@ -110,7 +110,15 @@ router.get("/contrasenas", async (req, res) => {
 
 router.get("/documentos", async (req, res) => {
     try {
-        res.render("documentos")
+        const respuesta = await fetch(`${process.env.URL_API}/documento/`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const items = await respuesta.json();
+        const data = items.items || [];
+        res.render("documentos", { data, urlApi: process.env.URL_API });
     } catch (error) {
         console.error("Error de la api:" + error);
         res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);

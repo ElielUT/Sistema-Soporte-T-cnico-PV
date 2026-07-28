@@ -32,7 +32,7 @@
 
             <form action="">
                 <div class="dosUno">
-                    <input type="file" name="nombre" id="" placeholder="Nombre" style="padding: 0px;">
+                    <input type="file" name="archivo" id="inputArchivo" placeholder="Archivo" style="padding: 0px;" required>
                     <select name="categoria" id="">
                         <option value="">Categoría</option>
                         <option value="Instrucciones">Instrucciones</option>
@@ -57,9 +57,39 @@
                     <th>
                         Categoría
                     </th>
-                    <th></th>
+                    <th style="width: 80px; text-align: center;">Acciones</th>
                 </tr>
             </thead>
+            <tbody>
+                <% if (typeof data !== 'undefined' && data && data.length > 0) { %>
+                    <% data.filter(item => item.name !== '.emptyFolderPlaceholder').forEach((item, index) => { 
+                        const nombreDoc = item.name || item.nombre || '';
+                        const idDoc = item.id || (index + 1);
+                        const catDoc = item.categoria || (item.metadata && item.metadata.mimetype) || 'Documento';
+                    %>
+                        <tr id="<%= idDoc %>" data-nombre="<%= nombreDoc %>" data-categoria="<%= catDoc %>">
+                            <td>
+                                <%= idDoc %>
+                            </td>
+                            <td>
+                                <%= nombreDoc %>
+                            </td>
+                            <td>
+                                <%= catDoc %>
+                            </td>
+                            <td style="width: 80px; text-align: center;">
+                                <a href="<%= urlApi %>/documento/<%= encodeURIComponent(nombreDoc) %>" download="<%= nombreDoc %>" title="Descargar" style="text-decoration: none; color: inherit;">
+                                    <i class="bi bi-download descargar" style="cursor: pointer; font-size: 1.1rem;"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #888;">No hay documentos disponibles</td>
+                    </tr>
+                <% } %>
+            </tbody>
         </table>
     </div>
     </div>
@@ -73,7 +103,7 @@
 
             <form action="">
                 <div class="dosUno">
-                    <input type="file" name="nombre" id="" placeholder="Nombre" style="padding: 0px;">
+                    <input type="file" name="archivo" id="" placeholder="Archivo" style="padding: 0px;">
                     <select name="categoria" id="">
                         <option value="">Categoría</option>
                         <option value="Instrucciones">Instrucciones</option>
@@ -87,7 +117,7 @@
         </div>
 
         <script>
-            window.paginaActual = "/documentos"
+            window.paginaActual = "/documento"
         </script>
         <script src="js/recursos.js"></script>
 

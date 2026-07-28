@@ -138,6 +138,39 @@ btnAgregar.addEventListener("click", async () => {
     console.log(api)
 
     const formEl = formNuevo.querySelector("form");
+
+    if (window.paginaActual === "/documento" || window.paginaActual === "/documentos") {
+        const fileInput = formEl.querySelector('input[type="file"]');
+        if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+            alert("Por favor seleccione un archivo para subir.");
+            formNuevo.classList.remove("ocultar");
+            btnNuevo.classList.add("ocultar");
+            formBusqueda.classList.add("completo");
+            return;
+        }
+        const fileFormData = new FormData();
+        fileFormData.append("archivo", fileInput.files[0]);
+
+        var targetApi = data.url + "/documento/";
+        cargando.classList.remove("ocultar");
+        try {
+            const respuesta = await fetch(targetApi, {
+                method: "POST",
+                body: fileFormData
+            });
+            if (!respuesta.ok) {
+                const err = await respuesta.json();
+                alert("Error al subir archivo: " + JSON.stringify(err.detail));
+            }
+        } catch (error) {
+            console.error("Error al enviar la petición:", error);
+        } finally {
+            cargando.classList.add("ocultar");
+            window.location.reload();
+        }
+        return;
+    }
+
     const formData = new FormData(formEl);
     const plainFormData = {};
 
