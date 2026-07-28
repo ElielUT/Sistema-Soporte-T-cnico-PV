@@ -1,7 +1,29 @@
 async function obtenerRutas() {
     const res = await fetch("/rutas");
-    const data = await res.json();
-    return data;
+    if (!res.ok) {
+        throw new Error(`No se pudo obtener la configuración de la API (HTTP ${res.status}).`);
+    }
+    return res.json();
+}
+
+// Extrae un mensaje legible de una respuesta de error, tolerando cuerpos que no son JSON.
+async function mensajeDeRespuesta(respuesta) {
+    const texto = await respuesta.text().catch(() => "");
+    if (texto) {
+        try {
+            const cuerpo = JSON.parse(texto);
+            const detalle = cuerpo.detail ?? cuerpo.message ?? cuerpo;
+            return typeof detalle === "string" ? detalle : JSON.stringify(detalle);
+        } catch {
+            return texto;
+        }
+    }
+    return `${respuesta.status} ${respuesta.statusText}`;
+}
+
+function reportarError(contexto, error) {
+    console.error(contexto, error);
+    alert(`${contexto}: ${error.message}`);
 }
 
 
@@ -130,12 +152,17 @@ btnCancelar.forEach(btn => {
 });
 
 btnAgregar.addEventListener("click", async () => {
-    const data = await obtenerRutas();
+    let data;
+    try {
+        data = await obtenerRutas();
+    } catch (error) {
+        reportarError("Error al guardar", error);
+        return;
+    }
     var api = data.url + window.paginaActual + "/";
     formNuevo.classList.add("ocultar")
     btnNuevo.classList.remove("ocultar");
     formBusqueda.classList.remove("completo");
-    console.log(api)
 
     const formEl = formNuevo.querySelector("form");
 
@@ -163,14 +190,16 @@ btnAgregar.addEventListener("click", async () => {
                 body: fileFormData
             });
             if (!respuesta.ok) {
-                const err = await respuesta.json();
-                alert("Error al subir archivo: " + JSON.stringify(err.detail));
+                throw new Error(await mensajeDeRespuesta(respuesta));
             }
+            window.location.reload();
         } catch (error) {
-            console.error("Error al enviar la petición:", error);
+            reportarError("Error al subir archivo", error);
+            formNuevo.classList.remove("ocultar");
+            btnNuevo.classList.add("ocultar");
+            formBusqueda.classList.add("completo");
         } finally {
             cargando.classList.add("ocultar");
-            window.location.reload();
         }
         return;
     }
@@ -221,14 +250,16 @@ btnAgregar.addEventListener("click", async () => {
             body: JSON.stringify(plainFormData)
         });
         if (!respuesta.ok) {
-            const err = await respuesta.json();
-            alert("Error al guardar: " + JSON.stringify(err.detail));
+            throw new Error(await mensajeDeRespuesta(respuesta));
         }
+        window.location.reload();
     } catch (error) {
-        console.error("Error al enviar la petición:", error);
+        reportarError("Error al guardar", error);
+        formNuevo.classList.remove("ocultar");
+        btnNuevo.classList.add("ocultar");
+        formBusqueda.classList.add("completo");
     } finally {
         cargando.classList.add("ocultar");
-        window.location.reload();
     }
 });
 
@@ -236,13 +267,19 @@ btnActualizar.addEventListener("click", async () => {
     const id = formEditar.dataset.id;
     if (!id) return;
 
+    let data;
+    try {
+        data = await obtenerRutas();
+    } catch (error) {
+        reportarError("Error al actualizar", error);
+        return;
+    }
+
     formEditar.classList.add("ocultar");
     btnNuevo.classList.remove("ocultar");
     formBusqueda.classList.remove("completo");
 
-    const data = await obtenerRutas();
     var api = data.url + window.paginaActual + "/" + id;
-    console.log("PUT to api:", api);
 
     const formEl = formEditar.querySelector("form");
     const formData = new FormData(formEl);
@@ -290,14 +327,16 @@ btnActualizar.addEventListener("click", async () => {
             body: JSON.stringify(plainFormData)
         });
         if (!respuesta.ok) {
-            const err = await respuesta.json();
-            alert("Error al actualizar: " + JSON.stringify(err.detail));
+            throw new Error(await mensajeDeRespuesta(respuesta));
         }
+        window.location.reload();
     } catch (error) {
-        console.error("Error al enviar la petición:", error);
+        reportarError("Error al actualizar", error);
+        formEditar.classList.remove("ocultar");
+        btnNuevo.classList.add("ocultar");
+        formBusqueda.classList.add("completo");
     } finally {
         cargando.classList.add("ocultar");
-        window.location.reload();
     }
 });
 
@@ -305,9 +344,9 @@ btnsEliminar.forEach(btn => {
     btn.addEventListener("click", async () => {
         var id = btn.parentElement.parentElement.id;
         cargando.classList.remove("ocultar");
-        const data = await obtenerRutas();
-        var api = data.url + window.paginaActual + "/" + id;
         try {
+            const data = await obtenerRutas();
+            var api = data.url + window.paginaActual + "/" + id;
             const respuesta = await fetch(api, {
                 method: "DELETE",
                 headers: {
@@ -315,15 +354,13 @@ btnsEliminar.forEach(btn => {
                 }
             });
             if (!respuesta.ok) {
-                const err = await respuesta.json();
-                alert("Error al guardar: " + JSON.stringify(err.detail));
+                throw new Error(await mensajeDeRespuesta(respuesta));
             }
-        } catch (error) {
-            console.error("Error al enviar la petición:", error);
-        } finally {
-            console.log(api);
-            cargando.classList.add("ocultar");
             window.location.reload();
+        } catch (error) {
+            reportarError("Error al eliminar", error);
+        } finally {
+            cargando.classList.add("ocultar");
         }
     })
 })
