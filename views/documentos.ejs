@@ -64,7 +64,7 @@
                 <% if (typeof data !== 'undefined' && data && data.length > 0) { %>
                     <% data.filter(item => item.name !== '.emptyFolderPlaceholder').forEach((item, index) => { 
                         const nombreDoc = item.name || item.nombre || '';
-                        const idDoc = item.id || (index + 1);
+                        const idDoc = item.id_doc || item.id || (index + 1);
                         const catDoc = item.categoria || (item.metadata && item.metadata.mimetype) || 'Documento';
                     %>
                         <tr id="<%= idDoc %>" data-nombre="<%= nombreDoc %>" data-categoria="<%= catDoc %>">
@@ -78,9 +78,10 @@
                                 <%= catDoc %>
                             </td>
                             <td style="width: 80px; text-align: center;">
-                                <a href="<%= urlApi %>/documento/<%= encodeURIComponent(nombreDoc) %>" download="<%= nombreDoc %>" title="Descargar" style="text-decoration: none; color: inherit;">
+                                <a href="<%= urlApi %>/documento/<%= encodeURIComponent(nombreDoc) %>" download="<%= nombreDoc %>" title="Descargar" style="text-decoration: none; color: inherit; margin-right: 8px;">
                                     <i class="bi bi-download descargar" style="cursor: pointer; font-size: 1.1rem;"></i>
                                 </a>
+                                <i class="bi bi-trash-fill eliminar" style="cursor: pointer; font-size: 1.1rem; color: #dc3545;" title="Eliminar"></i>
                             </td>
                         </tr>
                     <% }) %>

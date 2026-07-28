@@ -150,6 +150,10 @@ btnAgregar.addEventListener("click", async () => {
         }
         const fileFormData = new FormData();
         fileFormData.append("archivo", fileInput.files[0]);
+        const catSelect = formEl.querySelector('select[name="categoria"]');
+        if (catSelect && catSelect.value) {
+            fileFormData.append("categoria", catSelect.value);
+        }
 
         var targetApi = data.url + "/documento/";
         cargando.classList.remove("ocultar");
