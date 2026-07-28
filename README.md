@@ -1,1 +1,1 @@
-https://deepwiki.com/badge-maker?url=https%3A%2F%2Fdeepwiki.com%2FElielUT%2FSistema-Soporte-T-cnico-PV
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/ElielUT/Sistema-Soporte-T-cnico-PV)
