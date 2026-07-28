@@ -11,9 +11,16 @@
 </head>
 
 <body>
-    <div class="menu">
+    <button class="mobile-toggle-btn" id="mobileToggleBtn" aria-label="Abrir menú">
+        <i class="bi bi-list"></i>
+    </button>
+    <div class="menu-overlay" id="menuOverlay"></div>
 
+    <div class="menu" id="sideMenu">
         <div class="menTitulo">
+            <button class="close-menu-btn" id="closeMenuBtn" aria-label="Cerrar menú">
+                <i class="bi bi-x-lg"></i>
+            </button>
             <img src="/images/logo.png" alt="Logo">
             <br>
             <h1>Soporte Técnico</h1>
@@ -27,3 +34,26 @@
         </div>
     </div>
     <div class="contenido">
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleBtn = document.getElementById("mobileToggleBtn");
+            const closeBtn = document.getElementById("closeMenuBtn");
+            const sideMenu = document.getElementById("sideMenu");
+            const overlay = document.getElementById("menuOverlay");
+
+            function openMenu() {
+                if (sideMenu) sideMenu.classList.add("menu-abierto");
+                if (overlay) overlay.classList.add("overlay-activo");
+            }
+
+            function closeMenu() {
+                if (sideMenu) sideMenu.classList.remove("menu-abierto");
+                if (overlay) overlay.classList.remove("overlay-activo");
+            }
+
+            if (toggleBtn) toggleBtn.addEventListener("click", openMenu);
+            if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+            if (overlay) overlay.addEventListener("click", closeMenu);
+        });
+    </script>

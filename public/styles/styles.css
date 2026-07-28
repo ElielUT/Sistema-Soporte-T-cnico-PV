@@ -819,3 +819,364 @@ input[type="number"] {
     background-color: var(--colorPrincipal);
     color: white;
 }
+
+/* ==========================================
+   Mobile Toggle Button & Drawer Controls
+   ========================================== */
+.mobile-toggle-btn {
+    display: none;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1050;
+    background-color: var(--colorPrincipal);
+    color: var(--colorSecundario);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 1.8em;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.mobile-toggle-btn:hover {
+    transform: scale(1.05);
+    background-color: rgb(0, 95, 125);
+}
+
+.close-menu-btn {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: var(--colorSecundario);
+    font-size: 1.6em;
+    cursor: pointer;
+}
+
+.menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1040;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.menu-overlay.overlay-activo {
+    opacity: 1;
+    pointer-events: auto;
+    display: block;
+}
+
+/* ==========================================
+   Responsive Design for Tablets & Laptops (max-width: 1024px)
+   ========================================== */
+@media (max-width: 1024px) {
+    .menu {
+        width: 25%;
+    }
+    .contenido {
+        width: 75%;
+    }
+    .menTitulo h1 {
+        font-size: 1.8em;
+    }
+    .menEnlaces a {
+        font-size: 1.3em;
+    }
+    .buscador {
+        width: 95%;
+    }
+    .formBusqueda {
+        width: 75%;
+    }
+    .buscador .nuevo {
+        width: 25%;
+    }
+    .ingresar, .formEditar {
+        width: 95%;
+    }
+}
+
+/* ==========================================
+   Responsive Design for Smartphones & Small Tablets (max-width: 768px)
+   ========================================== */
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+        overflow-y: auto;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    /* Mobile Drawer Menu */
+    .mobile-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .close-menu-btn {
+        display: block;
+    }
+
+    .menu {
+        position: fixed;
+        top: 0;
+        left: -290px;
+        width: 260px;
+        height: 100vh;
+        z-index: 1050;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .menu.menu-abierto {
+        left: 0;
+    }
+
+    .menTitulo {
+        height: 25vh;
+        position: relative;
+    }
+
+    .menTitulo img {
+        width: 70px;
+    }
+
+    .menTitulo h1 {
+        font-size: 1.6em;
+    }
+
+    .menEnlaces {
+        height: 75vh;
+    }
+
+    .menEnlaces a {
+        font-size: 1.3em;
+        padding: 12px 20px;
+    }
+
+    .menu a:hover,
+    .menu a:last-child:hover {
+        transform: translateX(10px) scale(1.05);
+    }
+
+    /* Main Content Layout */
+    .contenido {
+        width: 100%;
+        height: auto;
+        min-height: 100vh;
+        padding-top: 60px;
+        padding-bottom: 30px;
+        overflow: visible;
+        box-sizing: border-box;
+    }
+
+    .contenido h1 {
+        font-size: 2em;
+        text-align: center;
+        margin: 15px 0;
+    }
+
+    /* Top Bar for Detail Views (header_superior) */
+    .barraSuperior {
+        height: auto;
+        padding: 12px 15px;
+        box-sizing: border-box;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .barraSuperior .izquierda {
+        width: auto;
+        font-size: 1.6em;
+        gap: 10px;
+    }
+
+    .barraSuperior .izquierda img {
+        width: 32px;
+    }
+
+    .barraSuperior .titulo {
+        width: auto;
+        flex: 1;
+    }
+
+    .barraSuperior .titulo h1 {
+        transform: none;
+        font-size: 1.3em;
+        text-align: center;
+        margin: 0;
+    }
+
+    .contenidoCompleto {
+        height: auto;
+        min-height: 90vh;
+        padding: 10px 5px 30px 5px;
+        box-sizing: border-box;
+    }
+
+    /* Search Bar Stack */
+    .buscador {
+        flex-direction: column;
+        width: 95%;
+        margin: 10px auto;
+        gap: 12px;
+    }
+
+    .formBusqueda {
+        width: 100%;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .buscador form input,
+    .buscador form select {
+        width: 100% !important;
+        margin: 0 !important;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    .buscador .nuevo {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 12px;
+        font-size: 1.1em;
+        text-align: center;
+    }
+
+    /* Responsive Tables */
+    table {
+        display: block;
+        width: 95% !important;
+        margin: 15px auto;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        border-spacing: 0;
+    }
+
+    table th, table td {
+        padding: 10px 8px;
+        font-size: 0.9em;
+    }
+
+    /* Form Fields Grid - Stack columns vertically */
+    .ingresar, .formEditar {
+        width: 95%;
+        padding: 15px 10px;
+        box-sizing: border-box;
+    }
+
+    .ingresar form {
+        width: 98%;
+    }
+
+    .ingresar form .tres,
+    .ingresar .dosUno,
+    .ingresar .dosUno1,
+    .ingresar .dosUnoR,
+    .ingresar .dosMedio,
+    .ingresar .dos {
+        flex-direction: column;
+        gap: 12px;
+        padding-bottom: 12px;
+    }
+
+    .ingresar form .tres input,
+    .ingresar form .tres select,
+    .ingresar .dosUno input,
+    .ingresar .dosUno select,
+    .ingresar .dosUno1 select,
+    .ingresar .dosUno1 input,
+    .ingresar .dosUnoR input,
+    .ingresar .dosUnoR select,
+    .ingresar .dosMedio select,
+    .ingresar .dosMedio input,
+    .ingresar .dos input,
+    .ingresar .dos select,
+    .searchable-select-container,
+    .ingresar .dosUnoR .searchable-select-container,
+    .ingresar .dosUno .searchable-select-container,
+    .ingresar .dosUno1 .searchable-select-container,
+    .ingresar .dos .searchable-select-container,
+    .ingresar .dosMedio .searchable-select-container,
+    .ingresar .tres .searchable-select-container,
+    .password-container {
+        width: 100% !important;
+        box-sizing: border-box;
+    }
+
+    .ingresar form input,
+    .ingresar form select {
+        font-size: 16px;
+    }
+
+    .botones {
+        width: 100%;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .botones button {
+        flex: 1;
+        margin: 5px 0;
+        padding: 12px;
+        font-size: 1.1em;
+    }
+
+    /* Overlay Modals */
+    .contenedorForm {
+        padding: 10px;
+        align-items: flex-start;
+        overflow-y: auto;
+    }
+
+    .contenedorForm .formEditar {
+        max-height: 90vh;
+        overflow-y: auto;
+        margin: 20px auto;
+    }
+
+    /* Maintenance Sections / Tabs */
+    .superior {
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .superior h1 {
+        font-size: 1.8em;
+        margin: 10px 0;
+    }
+
+    .secciones {
+        width: 100%;
+        padding-left: 0;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-seccion {
+        width: 48%;
+        height: auto;
+        padding: 10px 5px;
+        font-size: 1.1em;
+        margin: 0;
+    }
+
+    .seccion {
+        height: auto;
+        min-height: 75vh;
+    }
+}
