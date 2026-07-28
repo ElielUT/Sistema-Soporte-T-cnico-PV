@@ -80,6 +80,16 @@
             margin-bottom: 7%;
         }
 
+        .login-error {
+            color: rgb(150, 20, 20);
+            background-color: rgb(255, 225, 225);
+            border-radius: 5px;
+            padding: 8px 12px;
+            margin-bottom: 10px;
+            width: 80%;
+            text-align: center;
+        }
+
         button {
             font-size: 1.5em;
             padding: 10px 25px;
@@ -133,6 +143,9 @@
 <body>
     <div class="login-container">
         <h1 class="login-title">Sistema Soporte Técnico PV</h1>
+        <% if (typeof error !== "undefined" && error) { %>
+            <p class="login-error">Usuario o contraseña incorrectos.</p>
+        <% } %>
         <form action="" method="post" class="login-form">
             <label for="usuario">Usuario:</label>
             <input type="text" name="usuario" id="usuario" placeholder="Ingrese el usuario" required>
