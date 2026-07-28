@@ -1,0 +1,9 @@
+<div class="superior">
+    <h1><%= titulo %></h1>
+
+    <div class="secciones">
+        <% botones.forEach(boton => { %>
+            <button class="btn-seccion<%= boton.activo ? ' seleccionado' : '' %>" id="<%= boton.id %>"><%= boton.texto %></button>
+        <% }) %>
+    </div>
+</div>

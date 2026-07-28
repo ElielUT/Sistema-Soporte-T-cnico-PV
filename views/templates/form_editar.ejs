@@ -1,0 +1,12 @@
+<%# El contenedor exterior lo cierra templates/footer.ejs %>
+<div class="contenedorForm ocultar modales" id="formEditar">
+    <div class="formEditar ingresar">
+        <div class="botones">
+            <button class="cancelar"><b>Cancelar</b></button>
+            <button class="actualizar" id="actualizar"><b>Actualizar</b></button>
+        </div>
+
+        <form action="">
+            <%- include(campos, { esNuevo: false }) %>
+        </form>
+    </div>

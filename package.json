@@ -14,7 +14,6 @@
   "type": "module",
   "dependencies": {
     "@supabase/supabase-js": "^2.106.2",
-    "axios": "^1.18.1",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "compression": "^1.8.1",

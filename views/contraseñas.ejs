@@ -1,54 +1,20 @@
 <%- include("templates/header.ejs") %>
-    <div class="superior">
-        <h1>Recursos</h1>
-        <div class="secciones">
-            <button class="btn-seccion seleccionado" id="btnContraseñas">Contraseñas</button>
-            <button class="btn-seccion" id="btnDocumentos">Documentos</button>
-        </div>
-    </div>
+    <%- include("templates/secciones", { titulo: "Recursos", botones: [
+        { id: "btnContraseñas", texto: "Contraseñas", activo: true },
+        { id: "btnDocumentos", texto: "Documentos", activo: false }
+    ] }) %>
 
     <div class="seccion">
         <div class="buscador">
             <form action="" id="formBusqueda" class="formBusqueda">
                 <input type="text" name="Buscar" placeholder="Buscar">
-                <select name="categoria" id="">
-                    <option value="">Todas</option>
-                    <option value="Antenas">Antenas</option>
-                    <option value="Cámaras">Cámaras</option>
-                    <option value="Redes Wifi">Redes Wifi</option>
-                    <option value="Sistemas / Cuentas">Sistemas / Cuentas</option>
-                </select>
+                <%- include("templates/select", { nombre: "categoria", placeholder: "Todas", opciones: catalogos.categoriasContrasenas }) %>
             </form>
 
             <button class="nuevo" id="nuevo"><b>+ Nuevo</b></button>
         </div>
 
-        <div class="ingresar ocultar modales" id="formNuevo">
-            <div class="botones">
-                <button class="cancelar"><b>Cancelar</b></button>
-                <button class="agregar" id="agregar"><b>+ Agregar</b></button>
-            </div>
-
-            <form action="">
-                <div class="dos">
-                    <input type="text" name="nombre" id="" placeholder="Nombre">
-                    <select name="categoria" id="">
-                        <option value="">Categoría</option>
-                        <option value="Antenas">Antenas</option>
-                        <option value="Cámaras">Cámaras</option>
-                        <option value="Redes Wifi">Redes Wifi</option>
-                        <option value="Sistemas / Cuentas">Sistemas / Cuentas</option>
-                    </select>
-                </div>
-                <div class="dos">
-                    <input type="text" name="usuario" id="" placeholder="Usuario">
-                    <div class="password-container">
-                        <input type="password" name="password" id="" placeholder="Contraseña">
-                        <i class="bi bi-eye-fill toggle-password"></i>
-                    </div>
-                </div>
-            </form>
-        </div>
+        <%- include("templates/form_nuevo", { campos: "campos/contrasenas" }) %>
 
         <table>
             <thead>
@@ -94,10 +60,7 @@
                         <td>
                             <%= item.usuario %>
                         </td>
-                        <td style="width: 50px; text-align: center;">
-                            <i class="bi bi-trash-fill eliminar"></i>
-                            <i class="bi bi-pencil-fill editar"></i>
-                        </td>
+                        <%- include("templates/acciones") %>
                     </tr>
                     <% }) %>
             </tbody>
@@ -105,33 +68,7 @@
     </div>
     </div>
 
-    <div class="contenedorForm ocultar modales" id="formEditar">
-        <div class="formEditar ingresar">
-            <div class="botones">
-                <button class="cancelar"><b>Cancelar</b></button>
-                <button class="actualizar" id="actualizar"><b>Actualizar</b></button>
-            </div>
-
-            <form action="">
-                <div class="dos">
-                    <input type="text" name="nombre" id="" placeholder="Nombre">
-                    <select name="categoria" id="">
-                        <option value="">Categoría</option>
-                        <option value="Antenas">Antenas</option>
-                        <option value="Cámaras">Cámaras</option>
-                        <option value="Redes Wifi">Redes Wifi</option>
-                        <option value="Sistemas / Cuentas">Sistemas / Cuentas</option>
-                    </select>
-                </div>
-                <div class="dos">
-                    <input type="text" name="usuario" id="" placeholder="Usuario">
-                    <div class="password-container">
-                        <input type="password" name="password" id="" placeholder="Contraseña">
-                        <i class="bi bi-eye-fill toggle-password"></i>
-                    </div>
-                </div>
-            </form>
-        </div>
+    <%- include("templates/form_editar", { campos: "campos/contrasenas" }) %>
 
         <script>
             window.paginaActual = "/passwords"

@@ -8,36 +8,7 @@
         <button class="nuevo" id="nuevo"><b>+ Nuevo</b></button>
     </div>
 
-    <div class="ingresar ocultar modales" id="formNuevo">
-        <div class="botones">
-            <button class="cancelar"><b>Cancelar</b></button>
-            <button class="agregar" id="agregar"><b>+ Agregar</b></button>
-        </div>
-
-        <form action="">
-            <div class="tres">
-                <select name="idprod1" id="">
-                    <option value="">Seleccione un producto</option>
-                    <% productos.forEach(prod=> { %>
-                        <option value="<%= prod.idprod %>">
-                            <%= prod.modelo %>
-                                <%= prod.noserie %>
-                        </option>
-                        <% }) %>
-                </select>
-                <input type="text" name="nombre" id="" placeholder="Nombre">
-                <input type="text" name="direccionip" id="" placeholder="Dirección IP">
-            </div>
-            <div class="dos">
-                <input type="text" name="ubicacion" id="" placeholder="Ubicación">
-                <input type="text" name="puertoswitch" id="" placeholder="Puerto Switch">
-            </div>
-            <div class="dos">
-                <input type="text" name="usuario" id="" placeholder="Usuario">
-                <input type="text" name="contrasena" id="" placeholder="Contraseña">
-            </div>
-        </form>
-    </div>
+    <%- include("templates/form_nuevo", { campos: "campos/antenas" }) %>
 
     <table>
         <thead>
@@ -76,49 +47,14 @@
                     <td>
                         <%= item.puertoswitch %>
                     </td>
-                    <td style="width: 50px; text-align: center;">
-                        <form action=""><input type="hidden" name="subcategoria" value="<%= item.subcategoria %>">
-                        </form>
-                        <i class="bi bi-trash-fill eliminar"></i>
-                        <i class="bi bi-pencil-fill editar"></i>
-                    </td>
+                    <%- include("templates/acciones", { subcategoria: item.subcategoria }) %>
                 </tr>
                 <% }) %>
         </tbody>
     </table>
     </div>
 
-    <div class="contenedorForm ocultar modales" id="formEditar">
-        <div class="formEditar ingresar">
-            <div class="botones">
-                <button class="cancelar"><b>Cancelar</b></button>
-                <button class="actualizar" id="actualizar"><b>Actualizar</b></button>
-            </div>
-
-            <form action="">
-                <div class="tres">
-                    <select name="idprod1" id="">
-                        <option value="">Seleccione un producto</option>
-                        <% productos.forEach(prod=> { %>
-                            <option value="<%= prod.idprod %>">
-                                <%= prod.modelo %>
-                                    <%= prod.noserie %>
-                            </option>
-                            <% }) %>
-                    </select>
-                    <input type="text" name="nombre" id="" placeholder="Nombre">
-                    <input type="text" name="direccionip" id="" placeholder="Dirección IP">
-                </div>
-                <div class="dos">
-                    <input type="text" name="ubicacion" id="" placeholder="Ubicación">
-                    <input type="text" name="puertoswitch" id="" placeholder="Puerto Switch">
-                </div>
-                <div class="dos">
-                    <input type="text" name="usuario" id="" placeholder="Usuario">
-                    <input type="text" name="contrasena" id="" placeholder="Contraseña">
-                </div>
-            </form>
-        </div>
+    <%- include("templates/form_editar", { campos: "campos/antenas" }) %>
 
         <script>
             window.paginaActual = "/antena"

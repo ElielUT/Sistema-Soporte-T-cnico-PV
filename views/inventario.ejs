@@ -4,75 +4,13 @@
     <div class="buscador">
         <form action="" id="formBusqueda" class="formBusqueda">
             <input type="text" name="Buscar" placeholder="Buscar">
-            <select name="categoria" id="">
-                <option value="">Todos</option>
-                <option value="Periféricos">Periféricos</option>
-                <option value="Antenas">Antenas</option>
-                <option value="Computo">Computo</option>
-                <option value="Cámaras">Cámaras</option>
-                <option value="Cables">Cables</option>
-                <option value="Mantenimiento">Mantenimiento</option>
-                <option value="Herramientas">Herramientas</option>
-                <option value="Impresoras">Impresoras</option>
-                <option value="Telefonía">Telefonía</option>
-            </select>
+            <%- include("templates/select", { nombre: "categoria", placeholder: "Todos", opciones: catalogos.categoriasInventario }) %>
         </form>
 
         <button class="nuevo" id="nuevo"><b>+ Nuevo</b></button>
     </div>
 
-    <div class="ingresar ocultar modales" id="formNuevo">
-        <div class="botones">
-            <button class="cancelar"><b>Cancelar</b></button>
-            <button class="agregar" id="agregar"><b>+ Agregar</b></button>
-        </div>
-
-        <form action="">
-            <div class="tres">
-                <input type="text" placeholder="Producto" name="producto">
-                <select name="categoria" id="">
-                    <option value="">Categoría</option>
-                    <option value="Periféricos">Periféricos</option>
-                    <option value="Antenas">Antenas</option>
-                    <option value="Computo">Computo</option>
-                    <option value="Cámaras">Cámaras</option>
-                    <option value="Cables">Cables</option>
-                    <option value="Mantenimiento">Mantenimiento</option>
-                    <option value="Herramientas">Herramientas</option>
-                    <option value="Impresoras">Impresoras</option>
-                    <option value="Telefonía">Telefonía</option>
-                </select>
-                <input type="number" name="cantidad" id="" placeholder="Cantidad" min="0">
-            </div>
-            <div class="dosUno">
-                <input type="number" name="medida" id="" placeholder="Medida" min="0">
-                <select name="unmed" id="">
-                    <optgroup label="Peso">
-                        <option value="kg">Kg</option>
-                        <option value="gr">Gr</option>
-                        <option value="mg">Mg</option>
-                    </optgroup>
-                    <optgroup label="Litros">
-                        <option value="lt">Lt</option>
-                        <option value="ml">Ml</option>
-                    </optgroup>
-                    <optgroup label="Metros">
-                        <option value="m">M</option>
-                        <option value="cm">Cm</option>
-                        <option value="mm">Mm</option>
-                    </optgroup>
-                    <optgroup label="Otra">
-                        <option value="u" selected>Unidad</option>
-                        <option value="">Ninguna</option>
-                    </optgroup>
-                </select>
-            </div>
-            <div class="solo">
-                <input type="checkbox" name="subcategoria" id="">
-                <label for="subcategoria"><b>Subcategoria</b></label>
-            </div>
-        </form>
-    </div>
+    <%- include("templates/form_nuevo", { campos: "campos/inventario" }) %>
 
     <table>
         <thead>
@@ -106,67 +44,14 @@
                         <%= item.medida %>
                             <%= item.unmed %>
                     </td>
-                    <td style="width: 50px; text-align: center;">
-                        <form action=""><input type="hidden" name="subcategoria" value="<%= item.subcategoria %>">
-                        </form>
-                        <i class="bi bi-trash-fill eliminar"></i>
-                        <i class="bi bi-pencil-fill editar"></i>
-                    </td>
+                    <%- include("templates/acciones", { subcategoria: item.subcategoria }) %>
                 </tr>
                 <% }) %>
         </tbody>
     </table>
     </div>
-    <div class="contenedorForm ocultar modales" id="formEditar">
-        <div class="formEditar ingresar">
-            <div class="botones">
-                <button class="cancelar"><b>Cancelar</b></button>
-                <button class="actualizar" id="actualizar"><b>Actualizar</b></button>
-            </div>
 
-            <form action="">
-                <div class="tres">
-                    <input type="text" placeholder="Producto" name="producto">
-                    <select name="categoria" id="">
-                        <option value="">Categoría</option>
-                        <option value="Periféricos">Periféricos</option>
-                        <option value="Antenas">Antenas</option>
-                        <option value="Computo">Computo</option>
-                        <option value="Cámaras">Cámaras</option>
-                        <option value="Cables">Cables</option>
-                        <option value="Mantenimiento">Mantenimiento</option>
-                        <option value="Herramientas">Herramientas</option>
-                        <option value="Impresoras">Impresoras</option>
-                        <option value="Telefonía">Telefonía</option>
-                    </select>
-                    <input type="number" name="cantidad" id="" placeholder="Cantidad" min="0">
-                </div>
-                <div class="dosUno">
-                    <input type="number" name="medida" id="" placeholder="Medida" min="0">
-                    <select name="unmed" id="">
-                        <optgroup label="Peso">
-                            <option value="kg">Kg</option>
-                            <option value="gr">Gr</option>
-                            <option value="mg">Mg</option>
-                        </optgroup>
-                        <optgroup label="Litros">
-                            <option value="lt">Lt</option>
-                            <option value="ml">Ml</option>
-                        </optgroup>
-                        <optgroup label="Metros">
-                            <option value="m">M</option>
-                            <option value="cm">Cm</option>
-                            <option value="mm">Mm</option>
-                        </optgroup>
-                        <optgroup label="Otra">
-                            <option value="u" selected>Unidad</option>
-                            <option value="">Ninguna</option>
-                        </optgroup>
-                    </select>
-                </div>
-            </form>
-        </div>
-
+    <%- include("templates/form_editar", { campos: "campos/inventario" }) %>
 
         <script>
             window.paginaActual = "/inventario"

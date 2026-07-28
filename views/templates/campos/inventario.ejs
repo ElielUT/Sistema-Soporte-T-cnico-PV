@@ -1,0 +1,23 @@
+<div class="tres">
+    <input type="text" placeholder="Producto" name="producto">
+    <%- include("../select", { nombre: "categoria", placeholder: "Categoría", opciones: catalogos.categoriasInventario }) %>
+    <input type="number" name="cantidad" id="" placeholder="Cantidad" min="0">
+</div>
+<div class="dosUno">
+    <input type="number" name="medida" id="" placeholder="Medida" min="0">
+    <select name="unmed" id="">
+        <% catalogos.unidadesMedida.forEach(grupo => { %>
+            <optgroup label="<%= grupo.grupo %>">
+                <% grupo.opciones.forEach(op => { %>
+                    <option value="<%= op.valor %>"<%= op.seleccionado ? " selected" : "" %>><%= op.texto %></option>
+                <% }) %>
+            </optgroup>
+        <% }) %>
+    </select>
+</div>
+<% if (esNuevo) { %>
+    <div class="solo">
+        <input type="checkbox" name="subcategoria" id="">
+        <label for="subcategoria"><b>Subcategoria</b></label>
+    </div>
+<% } %>

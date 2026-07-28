@@ -7,27 +7,7 @@
         <button class="nuevo" id="nuevo"><b>+ Nuevo</b></button>
     </div>
 
-    <div class="ingresar ocultar modales" id="formNuevo">
-        <div class="botones">
-            <button class="cancelar"><b>Cancelar</b></button>
-            <button class="agregar" id="agregar"><b>+ Agregar</b></button>
-        </div>
-
-        <form action="">
-            <div class="dosUnoR">
-                <input type="hidden" name="idproc1" id="idproc1" value="<%= idproc1 %>">
-                <select name="idinvt2" id="" data-searchable="true">
-                    <option value="" disabled selected>Seleccione un producto</option>
-                    <% inventario.forEach(inv=> { %>
-                        <option value="<%= inv.idinvt %>">
-                            <%= inv.producto %>
-                        </option>
-                        <% }) %>
-                </select>
-                <input type="number" name="cantidad" id="" placeholder="Cantidad" min="0">
-            </div>
-        </form>
-    </div>
+    <%- include("templates/form_nuevo", { campos: "campos/utiliza" }) %>
 
     <table>
         <thead>
@@ -47,37 +27,14 @@
                     <td>
                         <%= item.cantidad %>
                     </td>
-                    <td style="width: 50px; text-align: center;">
-                        <i class="bi bi-trash-fill eliminar"></i>
-                        <i class="bi bi-pencil-fill editar"></i>
-                    </td>
+                    <%- include("templates/acciones") %>
                 </tr>
                 <% }) %>
         </tbody>
     </table>
     </div>
-    <div class="contenedorForm ocultar modales" id="formEditar">
-        <div class="formEditar ingresar">
-            <div class="botones">
-                <button class="cancelar"><b>Cancelar</b></button>
-                <button class="actualizar" id="actualizar"><b>Actualizar</b></button>
-            </div>
 
-            <form action="">
-                <input type="hidden" name="idproc1" id="idproc1" value="<%= idproc1 %>">
-                <div class="dosUnoR">
-                    <select name="idinvt2" id="" data-searchable="true">
-                        <option value="" disabled selected>Seleccione un producto</option>
-                        <% inventario.forEach(inv=> { %>
-                            <option value="<%= inv.idinvt %>">
-                                <%= inv.producto %>
-                            </option>
-                            <% }) %>
-                    </select>
-                    <input type="number" name="cantidad" id="" placeholder="Cantidad" min="0">
-                </div>
-            </form>
-        </div>
+    <%- include("templates/form_editar", { campos: "campos/utiliza" }) %>
 
         <script src="/js/searchable-select.js"></script>
         <script>

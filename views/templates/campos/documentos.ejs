@@ -1,0 +1,4 @@
+<div class="dosUno">
+    <input type="file" name="archivo" id="<%= esNuevo ? "inputArchivo" : "" %>" placeholder="Archivo" style="padding: 0px;" <%= esNuevo ? "required" : "" %>>
+    <%- include("../select", { nombre: "categoria", placeholder: "Categoría", opciones: catalogos.categoriasDocumentos }) %>
+</div>

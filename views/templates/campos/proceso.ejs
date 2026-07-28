@@ -1,0 +1,11 @@
+<div class="dosUno1">
+    <select name="idmant1" id="">
+        <option value="">Seleccione un mantenimiento</option>
+        <% mantenimientos.forEach(mant => { %>
+            <option value="<%= mant.idmant %>">
+                <%= mant.areas %> - Día <%= mant.dia %> / Mes <%= mant.mes %>
+            </option>
+        <% }) %>
+    </select>
+    <input type="date" name="realizado" id="" placeholder="Fecha">
+</div>

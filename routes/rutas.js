@@ -1,6 +1,7 @@
 import { Router } from "express";
-import axios from "axios";
 import 'dotenv/config';
+import { requiereAutenticacion } from "../middleware/auth.js";
+import { vistaDesdeApi } from "../utils/api.js";
 
 const router = Router();
 
@@ -18,196 +19,36 @@ router.post("/", (req, res) => {
     }
 })
 
-router.get("/inventario", async (req, res) => {
-    if (!req.session.autenticado) {
-        res.redirect("/");
-        return;
-    }
-    try {
-        const respuesta = await fetch(`${process.env.URL_API}/inventario/`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }
-        );
-        const items = await respuesta.json();
-        const data = items.items;
-        res.render("inventario", { data });
-    } catch (error) {
-        console.error("Error de la api:" + error);
-        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
-    }
-})
+router.get("/inventario", requiereAutenticacion,
+    vistaDesdeApi("inventario", "/inventario/", items => ({ data: items.items })));
 
-router.get("/productos/:id", async (req, res) => {
-    if (!req.session.autenticado) {
-        res.redirect("/");
-        return;
-    }
-    try {
-        const respuesta = await fetch(`${process.env.URL_API}/producto/${req.params.id}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }
-        );
-        const items = await respuesta.json();
-        const data = items;
-        res.render("producto", { data });
-    } catch (error) {
-        console.error("Error de la api:" + error);
-        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
-    }
-})
+router.get("/productos/:id", requiereAutenticacion,
+    vistaDesdeApi("producto", req => `/producto/${req.params.id}`, items => ({ data: items })));
 
-router.get("/camaras", async (req, res) => {
-    if (!req.session.autenticado) {
-        res.redirect("/");
-        return;
-    }
-    try {
-        const respuesta = await fetch(`${process.env.URL_API}/camara/`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        const items = await respuesta.json();
-        const data = items.items;
-        const productos = items.productos;
-        res.render("camaras", { data, productos });
-    } catch (error) {
-        console.error("Error de la api:" + error);
-        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
-    }
-})
+router.get("/camaras", requiereAutenticacion,
+    vistaDesdeApi("camaras", "/camara/", items => ({ data: items.items, productos: items.productos })));
 
-router.get("/antenas", async (req, res) => {
-    if (!req.session.autenticado) {
-        res.redirect("/");
-        return;
-    }
-    try {
-        const respuesta = await fetch(`${process.env.URL_API}/antena/`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        const items = await respuesta.json();
-        const data = items.items;
-        const productos = items.productos;
-        res.render("antenas", { data, productos });
-    } catch (error) {
-        console.error("Error de la api:" + error);
-        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
-    }
-})
+router.get("/antenas", requiereAutenticacion,
+    vistaDesdeApi("antenas", "/antena/", items => ({ data: items.items, productos: items.productos })));
 
-router.get("/contrasenas", async (req, res) => {
-    if (!req.session.autenticado) {
-        res.redirect("/");
-        return;
-    }
-    try {
-        const respuesta = await fetch(`${process.env.URL_API}/passwords/`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        const items = await respuesta.json();
-        const data = items.items;
-        res.render("contraseñas", { data });
-    } catch (error) {
-        console.error("Error de la api:" + error);
-        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
-    }
-})
+router.get("/contrasenas", requiereAutenticacion,
+    vistaDesdeApi("contraseñas", "/passwords/", items => ({ data: items.items })));
 
-router.get("/documentos", async (req, res) => {
-    if (!req.session.autenticado) {
-        res.redirect("/");
-        return;
-    }
-    try {
-        const respuesta = await fetch(`${process.env.URL_API}/documento/`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        const items = await respuesta.json();
-        const data = items.items || [];
-        res.render("documentos", { data, urlApi: process.env.URL_API });
-    } catch (error) {
-        console.error("Error de la api:" + error);
-        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
-    }
-})
+router.get("/documentos", requiereAutenticacion,
+    vistaDesdeApi("documentos", "/documento/", items => ({ data: items.items || [], urlApi: process.env.URL_API })));
 
-router.get("/mantenimientos", async (req, res) => {
-    if (!req.session.autenticado) {
-        res.redirect("/");
-        return;
-    }
-    try {
-        const respuesta = await fetch(`${process.env.URL_API}/mantenimientos/`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        const items = await respuesta.json();
-        const data = items.items;
-        res.render("mantenimientos", { data });
-    } catch (error) {
-        console.error("Error de la api:" + error);
-        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
-    }
-})
+router.get("/mantenimientos", requiereAutenticacion,
+    vistaDesdeApi("mantenimientos", "/mantenimientos/", items => ({ data: items.items })));
 
-router.get("/proceso", async (req, res) => {
-    if (!req.session.autenticado) {
-        res.redirect("/");
-        return;
-    }
-    try {
-        const respuesta = await fetch(`${process.env.URL_API}/proceso/`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        const items = await respuesta.json();
-        const data = items.items;
-        const mantenimientos = items.mantenimientos;
-        res.render("proceso", { data, mantenimientos });
-    } catch (error) {
-        console.error("Error de la api:" + error);
-        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
-    }
-})
+router.get("/proceso", requiereAutenticacion,
+    vistaDesdeApi("proceso", "/proceso/", items => ({ data: items.items, mantenimientos: items.mantenimientos })));
 
-router.get("/utiliza/:id", async (req, res) => {
-    if (!req.session.autenticado) {
-        res.redirect("/");
-        return;
-    }
-    try {
-        const respuesta = await axios.get(`${process.env.URL_API}/utiliza/`)
-        const items = respuesta.data.items;
-        const inventario = respuesta.data.inventario;
-        res.render("utiliza", { items, inventario, idproc1: req.params.id });
-    } catch (error) {
-        console.error("Error de la api:" + error);
-        res.send(`<script> alert('Error al obtener los datos ${error.message}'); window.location.href = '/'; </script>`);
-    }
-})
+router.get("/utiliza/:id", requiereAutenticacion,
+    vistaDesdeApi("utiliza", "/utiliza/", (items, req) => ({
+        items: items.items,
+        inventario: items.inventario,
+        idproc1: req.params.id
+    })));
 
 router.get("/rutas", (req, res) => {
     res.json({
