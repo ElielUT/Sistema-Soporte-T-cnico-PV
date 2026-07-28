@@ -7,18 +7,38 @@ import compression from "compression";
 
 const app = express();
 
+const SECRET_SESSION = process.env.SECRET_SESSION;
+if (!SECRET_SESSION) {
+    throw new Error("Falta la variable de entorno SECRET_SESSION");
+}
+
+const origenesPermitidos = (process.env.ALLOWED_ORIGINS || "")
+    .split(",")
+    .map(origen => origen.trim())
+    .filter(Boolean);
+
 app.use(compression());
 //BACKEND
-app.use(cors());
+app.use(cors({
+    origin: origenesPermitidos.length > 0 ? origenesPermitidos : false,
+    credentials: true,
+}));
 app.use(express.json());
 app.use(express.static('public'));
 
+app.set("trust proxy", 1);
 app.use(session({
-    secret: process.env.SECRET_SESSION || 'default-session-secret-key-12345',
+    secret: SECRET_SESSION,
     name: "session_id",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false, path: "/" },
+    cookie: {
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+        sameSite: "lax",
+        maxAge: 1000 * 60 * 60 * 8,
+        path: "/",
+    },
 }));
 
 app.use(express.urlencoded({ extended: true }))
