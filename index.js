@@ -8,7 +8,6 @@ import compression from "compression";
 const app = express();
 
 app.use(compression());
-//BACKEND
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
